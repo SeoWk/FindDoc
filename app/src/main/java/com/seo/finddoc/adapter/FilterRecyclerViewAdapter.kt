@@ -1,8 +1,9 @@
-package com.seo.finddoc
+package com.seo.finddoc.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.seo.finddoc.FilterItem
 import com.seo.finddoc.databinding.RecyclerviewFilterItemBinding
 
 class FilterRecyclerViewAdapter(
