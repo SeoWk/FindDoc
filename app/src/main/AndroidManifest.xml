@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FindDoc"
         tools:targetApi="31">
+        <!--map API 관련 설정-->
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="dfmr8cdve3" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
