@@ -1,6 +1,7 @@
 package com.seo.finddoc
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +13,6 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import com.seo.finddoc.adapter.FilterRecyclerViewAdapter
-import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
-import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.databinding.ActivityMainBinding
 
@@ -33,7 +32,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
         mapFragment!!.getMapAsync(this@MainActivity)
         //런타임 권한 처리
-        locationSource = FusedLocationSource(this@MainActivity, LOCATION_PERMISSION_REQUEST_CODE)
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+
         val filterAdapter = ArrayAdapter.createFromResource(
             this@MainActivity, R.array.filter_array_item, android.R.layout.simple_dropdown_item_1line
         )
@@ -59,9 +59,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                     }
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 }
             }
         }*/
@@ -73,17 +71,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             layoutManager = manager
             adapter = FilterRecyclerViewAdapter(filterData())
         }
+        with(binding.listButton) {
+//            visibility = View.GONE
+            //bottom sheet와 전환
+        }
 
     }
 
-    private lateinit var permissionCheck: AppPermissionCheck
-    override fun onResume() {
-        super.onResume()
-    }
-
-    //퍼미션 체크
-    private fun permissionCheck() {
-    }
+//퍼미션 체크
+/*    private fun permissionCheck() {
+        permissionCheck = AppPermissionCheck(applicationContext,this@MainActivity)
+        if (!permissionCheck.currentAppCheckPermission()) {
+            permissionCheck.currentAppRequestPermission()
+        }
+    }*/
 
     //권한확인 결과 - 수정하기
     override fun onRequestPermissionsResult(
@@ -137,6 +138,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 //        with(binding){
 //            locationButton.map = naverMap
 //        }
+    }
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
     private fun filterData() = mutableListOf<FilterItem>().apply {
         add(FilterItem(R.drawable.ic_baseline_local_hospital_24, "병원"))

@@ -50,5 +50,5 @@ dependencies {
     // Ted Permission - RxJava3
     implementation 'io.github.ParkSangGwon:tedpermission-rx3:3.3.0'
     // https://mvnrepository.com/artifact/com.google.android.gms/play-services-location
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-location:20.0.0")
 }
