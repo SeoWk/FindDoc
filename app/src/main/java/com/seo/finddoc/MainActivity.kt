@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -14,7 +13,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import com.seo.finddoc.adapter.FilterRecyclerViewAdapter
 import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
-import com.seo.finddoc.common.PermissionCheck
+import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.databinding.ActivityMainBinding
 
@@ -22,14 +21,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val manager = LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
+
+        //NaverMap 객체 얻어오기
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
         mapFragment!!.getMapAsync(this@MainActivity)
+        //런타임 권한 처리
+        locationSource = FusedLocationSource(this@MainActivity, LOCATION_PERMISSION_REQUEST_CODE)
         val filterAdapter = ArrayAdapter.createFromResource(
             this@MainActivity, R.array.filter_array_item, android.R.layout.simple_dropdown_item_1line
         )
@@ -72,50 +76,68 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    override fun onMapReady(p0: NaverMap) {
-        naverMap = p0
-
-        //지도 범위 제한 - 수정하기
-        naverMap.maxZoom = 18.0
-        naverMap.minZoom = 10.0
-        //초기 위치 지정 - 최근 검색위치나 현재 위치로 수정하기
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.472418245111065, 126.89592797777232))
-        naverMap.moveCamera(cameraUpdate)
-
-        //마커 표시
-
-        //현재 위치 잡기
-        val uiSettings = naverMap.uiSettings.apply {
-            isLocationButtonEnabled = true
-        }
-        locationSource = FusedLocationSource(this@MainActivity, LOCATION_PERMISSION_REQUEST_CODE)
-        naverMap.locationSource = locationSource
-    }
-    private lateinit var permissionCheck: PermissionCheck
+    private lateinit var permissionCheck: AppPermissionCheck
     override fun onResume() {
         super.onResume()
     }
+
+    //퍼미션 체크
     private fun permissionCheck() {
-        permissionCheck = PermissionCheck(applicationContext,this@MainActivity)
-        if (!permissionCheck.currentAppCheckPermission()) {
-            permissionCheck.currentAppRequestPermission()
-        }
     }
+
+    //권한확인 결과 - 수정하기
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (!locationSource.isActivated){
-            naverMap.locationTrackingMode = LocationTrackingMode.None
+        if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
+            /**
+             * 권한 거부시 위치 추적하지 않음
+             */
+            if (!locationSource.isActivated) {
+                naverMap.locationTrackingMode = LocationTrackingMode.None
+            } else{
+                naverMap.locationTrackingMode = LocationTrackingMode.Follow
+            }
             return
-        }else{
-            naverMap.locationTrackingMode = LocationTrackingMode.Follow
-
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+    override fun onMapReady(p0: NaverMap) {
+        naverMap = p0
+        //지도 범위 설정
 
+        //마커 표시
+
+        //위치 소스 지정
+        naverMap.locationSource = locationSource
+        //권한 확인
+
+        //지도 중심 잡기
+        naverMap.setContentPadding(0,0,0,0)
+        //초기 카메라 위치 지정?? -> 최근 검색위치나 현재 위치로 수정하기
+//        val position = CameraPosition(
+//            LatLng(37.472418245111065, 126.89592797777232),
+//            16.0
+//        )
+        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.472418245111065, 126.89592797777232))
+        naverMap.moveCamera(cameraUpdate)
+
+
+        //map 컨트롤 재배치
+        val uiSettings = naverMap.uiSettings.apply {
+            isCompassEnabled = false
+            isScaleBarEnabled = false
+            isZoomControlEnabled = false
+            //현위치 버튼 컨트롤 사용
+            isLocationButtonEnabled = true
+            isIndoorLevelPickerEnabled = true
+        }
+//        with(binding){
+//            locationButton.map = naverMap
+//        }
+    }
     private fun filterData() = mutableListOf<FilterItem>().apply {
         add(FilterItem(R.drawable.ic_baseline_local_hospital_24, "병원"))
     }

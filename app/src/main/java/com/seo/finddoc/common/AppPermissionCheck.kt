@@ -7,9 +7,9 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-const val LOCATION_PERMISSION_REQUEST_CODE = 1004
+const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
-class PermissionCheck(private val context: Context, private val owner: Activity) {
+class AppPermissionCheck(private val context: Context, private val owner: Activity) {
     private val permissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
