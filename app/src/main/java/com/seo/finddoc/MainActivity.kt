@@ -1,20 +1,17 @@
 package com.seo.finddoc
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.LocationTrackingMode
-import com.naver.maps.map.MapFragment
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.*
 import com.naver.maps.map.util.FusedLocationSource
 import com.seo.finddoc.adapter.FilterRecyclerViewAdapter
 import com.seo.finddoc.common.toastMessage
+import com.seo.finddoc.data.FilterItem
 import com.seo.finddoc.databinding.ActivityMainBinding
+import com.seo.finddoc.fragment.BottomSheetListFragment
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +23,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val manager = LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
+        if (savedInstanceState == null) {
+            with(supportFragmentManager.beginTransaction()) {
+                add(R.id.container_view, )
+            }
+        }
 
         //NaverMap 객체 얻어오기
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val filterAdapter = ArrayAdapter.createFromResource(
             this@MainActivity, R.array.filter_array_item, android.R.layout.simple_dropdown_item_1line
         )
+
         with(binding.filterAT) {
             setAdapter(filterAdapter)
 /*            onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -67,13 +69,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 toastMessage(adapterView.getItemAtPosition(position) as String)
             }
         }
+        val manager = LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
+
         with(binding.filterRV) {
             layoutManager = manager
             adapter = FilterRecyclerViewAdapter(filterData())
         }
+
+        //바텀 시트
+        val bottomSheetListFragment = BottomSheetListFragment()
+        bottomSheetListFragment.show(supportFragmentManager,bottomSheetListFragment.tag)
+
         with(binding.listButton) {
-//            visibility = View.GONE
-            //bottom sheet와 전환
         }
 
     }

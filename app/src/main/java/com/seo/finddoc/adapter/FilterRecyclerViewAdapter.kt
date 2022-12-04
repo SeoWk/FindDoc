@@ -3,7 +3,7 @@ package com.seo.finddoc.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.seo.finddoc.FilterItem
+import com.seo.finddoc.data.FilterItem
 import com.seo.finddoc.databinding.RecyclerviewFilterItemBinding
 
 class FilterRecyclerViewAdapter(
@@ -25,7 +25,9 @@ class FilterRecyclerViewAdapter(
         val filterItem = filterList[position]
 
         with(holder.binding) {
+            //기본 버튼 drawable 매개변수로 바꾸는 방법 찾으면 변경하기
             filterBtn.setIconResource(filterItem.filterIcon)
+
             filterBtn.text = filterItem.filterName
             //on/off 색 전환
 //            filterToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener())
