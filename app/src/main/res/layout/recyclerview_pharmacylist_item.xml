@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    >
+    <TextView
+        android:id="@+id/pharmacyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="약국명"
+        android:layout_alignParentStart="true"
+        />
+    <TextView
+        android:id="@+id/departmentTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="약국"
+        android:layout_toRightOf="@id/pharmacyTV"
+        android:layout_marginLeft="5dp"
+        />
+
+    <TextView
+        android:id="@+id/businessTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="영업여부"
+        android:layout_below="@+id/pharmacyTV"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/hoursTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/departmentTV"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/businessTV"
+        android:text="영업시간" />
+
+    <TextView
+        android:id="@+id/distanceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_marker_black"
+        android:text="거리"
+        android:gravity="center"
+        android:layout_below="@id/hoursTV"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/dongTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="동주소"
+        android:layout_toRightOf="@id/distanceTV"
+        android:layout_below="@id/hoursTV"
+        android:layout_alignBaseline="@id/distanceTV"
+        android:layout_marginLeft="5dp"
+        />
+  <!--  <LinearLayout
+        android:id="@+id/features_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/dongTV"
+        android:layout_marginTop="10dp"
+        >
+        <TextView
+            android:id="@+id/hopitalInfoTV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="항목1" />
+    </LinearLayout>-->
+</RelativeLayout>

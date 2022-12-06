@@ -1,7 +1,7 @@
 package com.seo.finddoc.data
 
 data class HospitalListItem(
-    var hospitalPharmacy: String = "",
+    var hospitalName: String = "",
     var medicalDepartment: String = "",
     var medicalTreatment: String = "",
     var consultationHours: String = "",

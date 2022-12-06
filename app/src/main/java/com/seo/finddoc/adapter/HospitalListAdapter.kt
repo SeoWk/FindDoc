@@ -25,7 +25,7 @@ class HospitalListAdapter(
         val hospitalListItem = hospitalList[position]
 
         with(holder.binding) {
-            hospitalTV.text = hospitalListItem.hospitalPharmacy
+            hospitalTV.text = hospitalListItem.hospitalName
             departmentTV.text = hospitalListItem.medicalDepartment
             treatmentTV.text = hospitalListItem.medicalTreatment
             hoursTV.text = hospitalListItem.consultationHours

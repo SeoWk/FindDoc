@@ -18,6 +18,7 @@
      app:iconPadding="0dp"
      style="?attr/materialButtonOutlinedStyle"
      />
+
 <!-- <ToggleButton-->
 <!--     android:id="@+id/filterToggle"-->
 <!--     android:layout_width="wrap_content"-->

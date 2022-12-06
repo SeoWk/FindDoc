@@ -4,19 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.seo.finddoc.adapter.HospitalListAdapter
 import com.seo.finddoc.adapter.PharmacyListAdapter
+import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
-import com.seo.finddoc.databinding.BottomsheetListBinding
+import com.seo.finddoc.databinding.ViewpagerItemBinding
 
-class BottomSheetListFragment : BottomSheetDialogFragment() {
+class FavoriteViewPagerFragment : Fragment() {
+    private var _binding: ViewpagerItemBinding? = null
+    private val binding get() = _binding!!
+
     companion object {
-        fun newInstance(dept: String?): BottomSheetListFragment {
-            val fragment = BottomSheetListFragment()
+        fun newInstance(dept: String?): FavoriteViewPagerFragment {
+            val fragment = FavoriteViewPagerFragment()
             with(Bundle()){
                 putString("department", dept)
                 fragment.arguments = this
@@ -24,35 +28,30 @@ class BottomSheetListFragment : BottomSheetDialogFragment() {
             return fragment
         }
     }
-    private var _binding: BottomsheetListBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = BottomsheetListBinding.inflate(inflater, container, false)
-//        val view = inflater.inflate(R.layout.bottomsheet_list,container,false)
+        _binding = ViewpagerItemBinding.inflate(inflater, container, false)
 
         val manager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         val divider  = DividerItemDecoration(context,LinearLayoutManager.VERTICAL)
         val bundle = arguments
 
-        with(binding.hospitalRV) {
+        with(binding.favoriteRV) {
             layoutManager = manager
             addItemDecoration(divider)
-            adapter = HospitalListAdapter(hospitalList())
-            /**
-             * 병원/약국 나뉘면 주석 해제
-             */
-/*            val dept = bundle?.getString("department")
+
+            val dept = bundle?.getString("department")
             when (dept) {
                 "병원" -> adapter = HospitalListAdapter(hospitalList())
                 "약국" -> adapter = PharmacyListAdapter(pharmacyList())
                 else -> throw IllegalStateException("Unexpected value: " + dept)
-            }*/
+            }
         }
+
         return binding.root
     }
 
@@ -132,6 +131,4 @@ class BottomSheetListFragment : BottomSheetDialogFragment() {
                 "12:00 점심시간","930m","가산동")
         )
     }
-
-
 }
