@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gun0912.tedpermission.PermissionListener
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
@@ -22,16 +23,6 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
     private lateinit var binding: BottomMainFragmentBinding
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
-    companion object{
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
-        fun newInstance(title: String): Fragment {
-            val fragment: Fragment = BottomMainFragment()
-            val bundle = Bundle()
-            bundle.putString("title", title)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +30,10 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         binding = BottomMainFragmentBinding.inflate(inflater, container, false)
-        //NaverMap 객체 얻어오기
+        //NaverMap 객체 불러오기
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
         mapFragment!!.getMapAsync(this)
-        //런타임 권한 처리 - 위치 추적 기능
+        //위치권한 관련 요청- 위치 추적 기능
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
         val filterAdapter = ArrayAdapter.createFromResource(
@@ -96,6 +87,28 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
 
         return binding.root
     }
+    private fun initNaverMapLocation(){
+/*        //NaverMap 객체 불러오기
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
+        mapFragment!!.getMapAsync(this)*/
+    }
+
+    private val permissionListener = object : PermissionListener {
+        override fun onPermissionGranted() {
+            initNaverMapLocation()
+        }
+
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+            TODO("Not yet implemented")
+        }
+    }
+    private fun checkPermissionLocation() {
+/*        TedPermission.create()
+            .setPermissionListener(permissionListener)
+            .setRationaleMessage("지도 사용을 위해 위치제공접근권한이 필요합니다.")
+            .setPermissions(
+            ).check()*/
+    }
 
 //퍼미션 체크
 /*    private fun permissionCheck() {
@@ -105,16 +118,12 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         }
     }*/
 
-    //권한확인 결과 - 수정하기
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+        grantResults: IntArray ) {
         if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
-            /**
-             * 권한 거부시 위치 추적하지 않음
-             */
+            //권한 거부시 위치 추적하지 않음
             if (!locationSource.isActivated) {
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             } else{
@@ -130,26 +139,28 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
     }
 
     @UiThread
-    override fun onMapReady(p0: NaverMap) {
-        naverMap = p0
-        //마커 표시
+    override fun onMapReady(naverMap: NaverMap) {
+        this.naverMap = naverMap
 
         //위치 소스 지정
-        naverMap.locationSource = locationSource
-        //권한 확인
+        this.naverMap.locationSource = locationSource
+        /**
+         * 마커 표시 , 권한 확인?
+         */
+
 
         //지도 중심 잡기 - UI 요소에 가려진 영역을 콘텐츠 패딩으로 지정
-        naverMap.setContentPadding(0,0,0,0)
+        this.naverMap.setContentPadding(0,0,0,0)
 
 
         //카메라 영역 제한 - 한반도
-        naverMap.extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
+        this.naverMap.extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
         // + 줌 레벨
-        naverMap.minZoom = 5.0
-        naverMap.maxZoom = 18.0
+        this.naverMap.minZoom = 5.0
+        this.naverMap.maxZoom = 18.0
 
         //UI 설정 - map 컨트롤 활성화, 제스처
-        val uiSettings = naverMap.uiSettings.apply {
+        val uiSettings = this.naverMap.uiSettings.apply {
             isCompassEnabled = false
             //isScaleBarEnabled = false
             //isZoomControlEnabled = false
@@ -161,6 +172,17 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
             //기울임 비활성화
             isTiltGesturesEnabled = false
             isStopGesturesEnabled = true
+        }
+    }
+
+    companion object{
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        fun newInstance(title: String): Fragment {
+            val fragment: Fragment = BottomMainFragment()
+            val bundle = Bundle()
+            bundle.putString("title", title)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

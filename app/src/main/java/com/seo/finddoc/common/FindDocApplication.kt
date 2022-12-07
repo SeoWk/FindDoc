@@ -14,14 +14,14 @@ class FindDocApplication : Application(){
     override fun onCreate() {
         super.onCreate()
         appInstance = this
-        settingScrrenPortrait()
+        settingScreenPortrait()
     }
     companion object{
         private lateinit var appInstance: FindDocApplication
         fun getAppInstance() = appInstance
     }
 
-    private fun settingScrrenPortrait(){
+    private fun settingScreenPortrait(){
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             @SuppressLint("SourceLockedOrientationActivity")
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
