@@ -12,12 +12,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-<!--        <fragment
+        <fragment
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.naver.maps.map.MapFragment"
-            />-->
+            />
 <!--        <com.naver.maps.map.widget.LocationButtonView
             android:id="@+id/location_button"
             android:layout_width="wrap_content"

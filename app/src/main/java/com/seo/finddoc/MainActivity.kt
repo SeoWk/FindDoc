@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     //권한 부여
     private lateinit var permissionCheck: AppPermissionCheck
+
     override fun onResume() {
         super.onResume()
         if (!AppPreferenceManager.getInstance().isPermission) {
@@ -67,9 +68,9 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (!permissionCheck.currentAppPermissionsResult(requestCode, grantResults)) {
+        if (!permissionCheck.currentAppPermissionsResult(requestCode,grantResults)) {
             permissionCheck.currentAppRequestPermissions()
-        } else {
+        }else{
             AppPreferenceManager.getInstance().isPermission = true
         }
     }

@@ -38,7 +38,6 @@ class BottomFavoriteFragment : Fragment() {
         val toolbar = activity.supportActionBar
         toolbar?.let{
             it.setDisplayShowTitleEnabled(false)
-//            it.title = "즐겨찾기"
         }
 
         //뷰페이저
