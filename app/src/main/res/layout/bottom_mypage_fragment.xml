@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -26,21 +25,163 @@
                 />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-8
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="15dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        </RelativeLayout>
+            <!--                <TextView
+                                android:id="@+id/nameTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:text="이름"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
 
+                            <TextView
+                                android:id="@+id/EditInfoTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@id/view_detail1"
+                                android:layout_marginRight="5dp"
+                                android:layout_toLeftOf="@id/view_detail1"
+                                android:text="정보수정"
+                                android:textColor="#C9C9C9"
+                                android:textSize="14sp" />
+
+                            <ImageButton
+                                android:id="@+id/view_detail1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentRight="true"
+                                android:background="#00000000"
+                                android:src="@drawable/ic_greater" />-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/info_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+            <TextView
+                android:id="@+id/hpTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전화번호"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/categoryTV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="고객지원"
+                android:textColor="#C9C9C9"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/faq_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FAQ"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/notice_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="공지사항"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/inquire_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="문의하기"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+            <TextView
+                android:id="@+id/categoryTV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="기타"
+                android:textColor="#C9C9C9"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/terms_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="약관 및 정책"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/invite_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="친구초대"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="left|center"
+                android:drawableEnd="@drawable/ic_greater"
+                android:background="#00000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/inquirterms_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현재 버전"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    android:background="#00000000" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="v 1.0.0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="left|center"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 
-</LinearLayout>
+</RelativeLayout>

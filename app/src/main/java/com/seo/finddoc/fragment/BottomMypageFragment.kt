@@ -1,5 +1,6 @@
 package com.seo.finddoc.fragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -10,7 +11,7 @@ import com.seo.finddoc.databinding.BottomMypageFragmentBinding
 
 class BottomMypageFragment  : Fragment(){
     private lateinit var binding: BottomMypageFragmentBinding
-    private val activity = getActivity() as MainActivity
+
     companion object{
         fun newInstance(title: String): Fragment {
             val fragment: Fragment = BottomMypageFragment()
@@ -30,6 +31,7 @@ class BottomMypageFragment  : Fragment(){
 
 
         //툴바 셋팅
+        val activity = activity as MainActivity
         activity.setSupportActionBar(binding.toolbar)
         val toolbar = activity.supportActionBar
         toolbar?.let{
@@ -39,17 +41,25 @@ class BottomMypageFragment  : Fragment(){
             it.setHomeAsUpIndicator(R.drawable.ic_bell) //홈 기본 이미지 변경
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        //옵션 메뉴
+        setHasOptionsMenu(true)
+
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        activity.menuInflater.inflate(R.menu.menu_mypage_optionmenu, menu)
+//        menu.clear()
+        inflater.inflate(R.menu.menu_mypage_optionmenu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> { toastMessage("알림 페이지 만들기") }
-            R.id.menu_settings -> {toastMessage("설정 페이지 만들기")}
+            android.R.id.home -> {
+                toastMessage("알림 페이지 만들기")
+            }
+            R.id.menu_settings -> {
+                toastMessage("설정 페이지 만들기")
+            }
             else -> throw IllegalStateException("")
         }
         return super.onOptionsItemSelected(item)
