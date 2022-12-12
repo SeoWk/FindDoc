@@ -38,34 +38,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--                <TextView
-                                android:id="@+id/nameTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:text="이름"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/EditInfoTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBaseline="@id/view_detail1"
-                                android:layout_marginRight="5dp"
-                                android:layout_toLeftOf="@id/view_detail1"
-                                android:text="정보수정"
-                                android:textColor="#C9C9C9"
-                                android:textSize="14sp" />
-
-                            <ImageButton
-                                android:id="@+id/view_detail1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentRight="true"
-                                android:background="#00000000"
-                                android:src="@drawable/ic_greater" />-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/info_button"
                 android:layout_width="match_parent"
@@ -75,20 +47,27 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
+                android:background="#00000000"
+                />
             <TextView
                 android:id="@+id/hpTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:text="전화번호"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:textColor="#000000"
+                />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 />
             <TextView
                 android:id="@+id/categoryTV1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="고객지원"
                 android:textColor="#C9C9C9"
                 android:textSize="12sp"
@@ -124,6 +103,10 @@
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="#00000000" />
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                />
             <TextView
                 android:id="@+id/categoryTV2"
                 android:layout_width="wrap_content"
@@ -161,7 +144,7 @@
                 android:orientation="horizontal"
                 >
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/inquirterms_button"
+                    android:id="@+id/version_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="현재 버전"
@@ -173,13 +156,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="v 1.0.0"
+                    android:text="v 0.1.0"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:textColor="#000000"
                     android:gravity="left|center"
                     />
             </LinearLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

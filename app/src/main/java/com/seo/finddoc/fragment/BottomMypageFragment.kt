@@ -1,6 +1,5 @@
 package com.seo.finddoc.fragment
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment

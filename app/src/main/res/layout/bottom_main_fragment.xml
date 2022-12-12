@@ -26,46 +26,54 @@
             android:layout_gravity="left|center"
             tools:ignore="MissingConstraints" />-->
     </FrameLayout>
-    <androidx.appcompat.widget.Toolbar
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="10dp"
+        android:background="@drawable/search_style"
+        android:hint="진료과 또는 병원명/약국명 검색"
+        android:gravity="start|center"
+        android:textAlignment="viewStart"
+        android:textSize="14sp"
+        android:imeOptions="actionSearch"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:drawableRight="@drawable/ic_baseline_search_24"
+        android:drawablePadding="0dp"
+        android:drawableTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+<!--    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@drawable/search_style"
+        android:text="진료과 또는 병원명/약국명 검색"
+        android:textSize="12sp"
+        android:textColor="#C9C9C9"
+        android:gravity="left|center"
+        android:padding="10dp"
+        android:drawableRight="@drawable/ic_baseline_search_24"
+        android:drawablePadding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <EditText
-            android:id="@+id/autoComplete_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:textAlignment="viewStart"
-            android:textSize="14sp"
-            android:drawableEnd="@drawable/ic_search"
-            android:drawableTint="@color/gray"
-            android:drawablePadding="10dp"
-            />
+        app:layout_constraintTop_toTopOf="parent"
+        />-->
 
-        <!--                <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_search" />-->
-    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:id="@+id/filterLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
         >
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
