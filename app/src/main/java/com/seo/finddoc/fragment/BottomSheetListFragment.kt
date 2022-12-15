@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.seo.finddoc.adapter.HospitalListAdapter
-import com.seo.finddoc.adapter.PharmacyListAdapter
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.BottomsheetListBinding
+import com.seo.finddoc.recyclerview.HospitalListAdapter
 
 class BottomSheetListFragment : BottomSheetDialogFragment() {
     companion object {

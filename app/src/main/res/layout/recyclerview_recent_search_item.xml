@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recent_search_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    >
+        <TextView
+            android:id="@+id/searchedKewordTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/transparent"
+            android:text="최근검색어1"
+            android:gravity="start|center"
+            android:maxLines="1"
+            style="@style/Widget.AppCompat.TextView"
+            />
+        <TextView
+            android:id="@+id/searchedDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/transparent"
+            android:text="12.14"
+            android:gravity="center"
+            android:maxLines="1"
+            style="@style/Widget.AppCompat.TextView"
+            />
+
+        <ImageButton
+            android:id="@+id/deleteIB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_cancel_24"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            />
+</LinearLayout>

@@ -33,8 +33,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-
+        bottomNavigation.itemIconTintList = null
 
     }
 

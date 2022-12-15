@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HintTextAppearance">
+        <item name="android:fontFamily">@font/noto_sans_kr_regular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="EditTextStyle">
+        <item name="android:textStyle">normal</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+<!--    <style name = "TextViewStyle">
+        <item name = "android:text">TEST를 위한 TextView입니다</item>
+    </style>
+    <style name = "TextViewStyleSub" parent = "TextViewStyle">
+        <item name = "android:textColor">#FF0000</item>
+        <item name = "android:textStyle">bold</item>
+    </style>-->
+</resources>

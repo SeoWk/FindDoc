@@ -4,68 +4,46 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <FrameLayout
+    <fragment
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:name="com.naver.maps.map.MapFragment"
+        />
+    <!--        <com.naver.maps.map.widget.LocationButtonView
+                android:id="@+id/location_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:layout_gravity="left|center"
+                tools:ignore="MissingConstraints" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-        <fragment
-            android:id="@+id/map"
+        <EditText
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.naver.maps.map.MapFragment"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/search_style"
+            android:gravity="start|center"
+            android:hint="@string/search_hint"
+            android:textAlignment="viewStart"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:focusable="false"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawablePadding="0dp"
+            android:drawableTint="@color/gray"
+            style="@style/Widget.AppCompat.EditText"
             />
-<!--        <com.naver.maps.map.widget.LocationButtonView
-            android:id="@+id/location_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:layout_gravity="left|center"
-            tools:ignore="MissingConstraints" />-->
-    </FrameLayout>
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="10dp"
-        android:padding="10dp"
-        android:background="@drawable/search_style"
-        android:hint="진료과 또는 병원명/약국명 검색"
-        android:gravity="start|center"
-        android:textAlignment="viewStart"
-        android:textSize="14sp"
-        android:imeOptions="actionSearch"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:drawableRight="@drawable/ic_baseline_search_24"
-        android:drawablePadding="0dp"
-        android:drawableTint="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-<!--    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="10dp"
-        android:background="@drawable/search_style"
-        android:text="진료과 또는 병원명/약국명 검색"
-        android:textSize="12sp"
-        android:textColor="#C9C9C9"
-        android:gravity="left|center"
-        android:padding="10dp"
-        android:drawableRight="@drawable/ic_baseline_search_24"
-        android:drawablePadding="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />-->
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/filterLayout"
@@ -73,7 +51,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar_layout"
         >
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"

@@ -19,13 +19,4 @@
      style="?attr/materialButtonOutlinedStyle"
      />
 
-<!-- <ToggleButton-->
-<!--     android:id="@+id/filterToggle"-->
-<!--     android:layout_width="wrap_content"-->
-<!--     android:layout_height="wrap_content"-->
-<!--     android:background="@drawable/filter_style"-->
-<!--     android:textOn="진료중"-->
-<!--     android:textOff="진료중"-->
-<!--     android:textSize="14dp"-->
-<!--     />-->
 </LinearLayout>
