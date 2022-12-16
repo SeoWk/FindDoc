@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.seo.finddoc.common.AppPermissionCheck
-import com.seo.finddoc.common.AppPreferenceManager
+import com.seo.finddoc.common.AppSettingPreferenceManager
 import com.seo.finddoc.fragment.BottomFavoriteFragment
 import com.seo.finddoc.fragment.BottomMainFragment
 import com.seo.finddoc.fragment.BottomMypageFragment
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!AppPreferenceManager.getInstance().isPermission) {
+        if (!AppSettingPreferenceManager.getInstance(this).isLocation) {
             permissionCheck()
         }
 
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         if (!permissionCheck.currentAppPermissionsResult(requestCode,grantResults)) {
             permissionCheck.currentAppRequestPermissions()
         }else{
-            AppPreferenceManager.getInstance().isPermission = true
+            AppSettingPreferenceManager.getInstance(this).isLocation = true
         }
     }
 }

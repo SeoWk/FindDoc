@@ -18,10 +18,10 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
+import com.seo.finddoc.adapter.FilterRecyclerViewAdapter
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterItem
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
-import com.seo.finddoc.recyclerview.FilterRecyclerViewAdapter
 
 class BottomMainFragment : Fragment(),OnMapReadyCallback {
     private lateinit var binding: BottomMainFragmentBinding
@@ -83,12 +83,12 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         }
 
         /**
-         *  바텀 시트
+         *  바텀 시트 수정하기
          */
         val bottomSheetListFragment = BottomSheetListFragment.newInstance("병원")
         bottomSheetListFragment.show(childFragmentManager,bottomSheetListFragment.tag)
 
-        //검색화면
+        //검색화면으로 이동
         val activity = activity as MainActivity
 
         with(binding.searchBar) {

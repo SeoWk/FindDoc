@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.seo.finddoc.adapter.HospitalListAdapter
+import com.seo.finddoc.adapter.PharmacyListAdapter
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.ViewpagerItemBinding
-import com.seo.finddoc.recyclerview.HospitalListAdapter
-import com.seo.finddoc.recyclerview.PharmacyListAdapter
 
 class FavoriteViewPagerFragment : Fragment() {
     private var _binding: ViewpagerItemBinding? = null

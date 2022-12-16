@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory app:title="@string/autologin_header">
+        <SwitchPreferenceCompat
+            app:key="autologin"
+            app:title="@string/autologin_title"
+            app:summaryOn="@string/autologin_summary_on"
+            app:summaryOff="@string/autologin_summary_off"
+            app:defaultValue="true"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/notify_header">
+        <SwitchPreferenceCompat
+            app:key="medicalReminder"
+            app:title="@string/notify_title"
+            app:summaryOn="@string/notify_summary_on"
+            app:summaryOff="@string/notify_summary_off"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

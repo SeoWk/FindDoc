@@ -2,6 +2,20 @@
     <string name="app_name">FindDoc</string>
     <string name="list_button">목록보기</string>
     <string name="search_hint">진료과목 또는 병원명/약국명</string>
+
+    <!-- Preference Titles -->
+    <string name="autologin_header">로그인</string>
+    <string name="notify_header">Push 알림</string>
+
+    <string name="autologin_title">로그인 상태 유지</string>
+    <string name="autologin_summary_on">로그아웃 전까지 로그인 상태가 유지됩니다.</string>
+    <string name="autologin_summary_off">앱 비활성화시 자동으로 로그아웃됩니다.</string>
+
+    <string name="notify_title">진료 알림</string>
+    <string name="notify_summary_on">즐겨찾기한 의료시설의 영업시간 알림 받기 ON</string>
+    <string name="notify_summary_off">즐겨찾기한 의료시설의 영업시간 알림 받기 OFF</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
