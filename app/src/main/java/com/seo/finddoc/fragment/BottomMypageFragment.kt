@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.seo.finddoc.MainActivity
+import com.seo.finddoc.PreferenceSettingsFragment
 import com.seo.finddoc.R
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.databinding.BottomMypageFragmentBinding
@@ -27,7 +28,6 @@ class BottomMypageFragment  : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = BottomMypageFragmentBinding.inflate(inflater,container,false)
-
 
         //툴바 셋팅
         val activity = activity as MainActivity
@@ -57,7 +57,10 @@ class BottomMypageFragment  : Fragment(){
                 toastMessage("알림 페이지 만들기")
             }
             R.id.menu_settings -> {
-                toastMessage("설정 페이지 만들기")
+                (activity as MainActivity).supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, PreferenceSettingsFragment.newInstance("설정화면"))
+                    .commit()
             }
             else -> throw IllegalStateException("")
         }

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main_constraint"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <fragment
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment"
-        />
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="com.naver.maps.map.MapFragment"
+                />
     <!--        <com.naver.maps.map.widget.LocationButtonView
                 android:id="@+id/location_button"
                 android:layout_width="wrap_content"
@@ -57,6 +60,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             >
             <AutoCompleteTextView
                 android:id="@+id/filterAT"
@@ -78,23 +82,71 @@
             tools:listitem="@layout/recyclerview_filter_item"
             />
     </LinearLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/list_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/filter_style"
-        android:gravity="center"
-        android:text="@string/list_button"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:visibility="gone"
-        android:drawableLeft="@drawable/ic_list"
-        android:drawablePadding="2dp"
+
+    <!--        <FrameLayout
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:background="@drawable/rounded_dialog"
+                app:behavior_hideable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_baseline_remove_24" />-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/filterLayout"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/bottom_sheet_layout" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="지도보기"
+            android:drawableLeft="@drawable/ic_marker_black"
+            android:text="@string/fab_map"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_constraint"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="목록보기"
+            android:visibility="gone"
+            android:text="@string/fab_list"
+            android:textSize="12sp"
+            android:drawableLeft="@drawable/ic_list"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_constraint"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--        <include layout="@layout/bottomsheet_list"/>-->

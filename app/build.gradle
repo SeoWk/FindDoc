@@ -52,8 +52,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.16.0'
-    // Ted Permission - RxJava3
-    implementation 'io.github.ParkSangGwon:tedpermission-rx3:3.3.0'
     // https://mvnrepository.com/artifact/com.google.android.gms/play-services-location
     implementation("com.google.android.gms:play-services-location:20.0.0")
+    // https://mvnrepository.com/artifact/io.github.ParkSangGwon/tedpermission
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
 }

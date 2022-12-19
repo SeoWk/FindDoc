@@ -107,9 +107,6 @@ class SearchFragment : Fragment() {
         add(SearchedItem("다나아 이비인후과","12-14"))
     }
 
-
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

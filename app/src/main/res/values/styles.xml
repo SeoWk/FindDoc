@@ -12,11 +12,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
-<!--    <style name = "TextViewStyle">
-        <item name = "android:text">TEST를 위한 TextView입니다</item>
-    </style>
-    <style name = "TextViewStyleSub" parent = "TextViewStyle">
-        <item name = "android:textColor">#FF0000</item>
-        <item name = "android:textStyle">bold</item>
-    </style>-->
+    <!--    <style name = "TextViewStyle">
+            <item name = "android:text">TEST를 위한 TextView입니다</item>
+        </style>
+        <style name = "TextViewStyleSub" parent = "TextViewStyle">
+            <item name = "android:textColor">#FF0000</item>
+            <item name = "android:textStyle">bold</item>
+        </style>-->
 </resources>
