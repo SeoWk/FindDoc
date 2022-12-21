@@ -1,4 +1,4 @@
-package com.seo.finddoc.adapter
+package com.seo.finddoc.recyclerview
 
 import android.content.ContentValues.TAG
 import android.util.Log

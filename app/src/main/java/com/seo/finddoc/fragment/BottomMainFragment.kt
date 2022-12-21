@@ -1,6 +1,7 @@
 package com.seo.finddoc.fragment
 
 import android.Manifest
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +14,6 @@ import androidx.annotation.UiThread
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.gun0912.tedpermission.PermissionListener
@@ -21,7 +21,6 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.LocationTrackingMode
-import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
@@ -29,17 +28,23 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
-import com.seo.finddoc.adapter.FilterRecyclerViewAdapter
 import com.seo.finddoc.common.toastMessage
-import com.seo.finddoc.data.FilterItem
+import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
+import com.seo.finddoc.recyclerview.FilterItemDecoration
+import com.seo.finddoc.recyclerview.FilterRecyclerViewAdapter
 
 class BottomMainFragment : Fragment(),OnMapReadyCallback {
     private lateinit var binding: BottomMainFragmentBinding
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private var isFabOpen = false
+    private lateinit var mContext : Context
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,13 +59,21 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
             initNaverMapLocation()
         }
 
-        val filterAdapter = ArrayAdapter.createFromResource(
-            binding.root.context, R.array.filter_array_item, android.R.layout.simple_dropdown_item_1line
+        /**
+         * 스피너 양식 변경
+         */
+        val filterCtgAdapter = ArrayAdapter.createFromResource(
+            binding.root.context, R.array.filter_category, android.R.layout.simple_dropdown_item_1line
         )
-
-        with(binding.filterAT) {
-            setAdapter(filterAdapter)
-/*            onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        val filterSubjAdapter = ArrayAdapter.createFromResource(
+            binding.root.context, R.array.filter_medical_subject, android.R.layout.simple_dropdown_item_1line
+        )
+        /**
+         * 병원 선택시 진료과목 스피너
+         */
+        /*      with(binding.filterAT1) {
+                  setAdapter(filterCtgAdapter)
+         *//*         onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -83,17 +96,27 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
+        }*//*
+            setOnItemClickListener { adapterView, _, position, _ ->
+                val ctg = adapterView.getItemAtPosition(position) as String
+                if(ctg == "병원") {
+                    binding.filterAT2Layout.isVisible = true
+                    binding.filterAT2.setAdapter(filterSubjAdapter)
+                }else{
+                    binding.filterAT2Layout.isGone = true
+                }
+            }
         }*/
+
+        with(binding.filterAT2) {
             setOnItemClickListener { adapterView, _, position, _ ->
                 toastMessage(adapterView.getItemAtPosition(position) as String)
             }
         }
-        val manager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
 
-        with(binding.filterRV) {
-            layoutManager = manager
-            adapter = FilterRecyclerViewAdapter(filterData())
-        }
+        //버튼 리사이클러 뷰
+//        initRecycler(container!!.context)
+        initRecycler(mContext)
 
         //검색화면으로 이동
         val activity = activity as MainActivity
@@ -138,8 +161,8 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
                         BottomSheetBehavior.STATE_HIDDEN -> {
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
-    /*                        fabMap.isVisible = true
-                            fabMap.isFocusable = true*/
+                            /*                        fabMap.isVisible = true
+                                                    fabMap.isFocusable = true*/
                         }
                         BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                         }
@@ -174,7 +197,7 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
                 fabList.isClickable = true
                 fabList.isVisible = true
 
-            // 목록보기 클릭
+                // 목록보기 클릭
             } else {
                 fabList.isClickable = false
                 fabList.isGone = true
@@ -187,8 +210,8 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
     }
     //NaverMap 객체 불러오기
     private fun initNaverMapLocation() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
-        mapFragment!!.getMapAsync(this)
+/*        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
+        mapFragment!!.getMapAsync(this)*/
     }
 
     private val permissionListener = object : PermissionListener {
@@ -238,8 +261,31 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun filterData() = mutableListOf<FilterItem>().apply {
-        add(FilterItem(R.drawable.ic_baseline_local_hospital_24, "병원"))
+    private fun initRecycler(context: Context) {
+        val multiadapter = FilterRecyclerViewAdapter(context)
+        with(binding.filterRV) {
+//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            adapter = multiadapter
+            addItemDecoration(FilterItemDecoration(10))
+        }
+        multiadapter.datas = mutableListOf<FilterData>().apply {
+//            add(FilterData("전체",3))
+            add(FilterData("병원",1))
+            add(FilterData("진료중",2))
+            add(FilterData( "기타",2))
+        }
+
+        multiadapter.setOnItemClickListener(
+            object : FilterRecyclerViewAdapter.OnItemClickListener{
+                override fun onItemClick(position: Int) {
+                    /**
+                     * 작동불가
+                     */
+                }
+            }
+        )
+
+        multiadapter.notifyDataSetChanged()
     }
 
     @UiThread

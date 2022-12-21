@@ -13,30 +13,31 @@
         android:background="?android:attr/windowBackground"
         >
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/search_bar"
+            android:id="@+id/toolbar"
+            android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent"
             >
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:boxBackgroundMode="none"
                 app:startIconDrawable="@drawable/ic_search"
                 app:endIconMode="clear_text"
-                style="@style/Widget.Design.TextInputLayout"
+                android:gravity="center"
                 >
                 <EditText
                     android:id="@+id/search_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/transparent"
+                    android:gravity="start|center"
                     android:hint="@string/search_hint"
+                    android:textAlignment="viewStart"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:gravity="start|center"
                     android:imeOptions="actionSearch"
                     android:importantForAutofill="no"
-                    style="@style/Widget.AppCompat.EditText"
+
                     />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.appcompat.widget.Toolbar>

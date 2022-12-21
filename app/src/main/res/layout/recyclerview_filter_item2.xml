@@ -3,20 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    >
 <!--icon&text 가능한 다른 버튼 찾기-->
- <com.google.android.material.button.MaterialButton
+ <Button
      android:id="@+id/filterBtn"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:background="@drawable/filter_style"
+     android:layout_marginLeft="2dp"
      android:text="필터명"
-     android:textColor="#000000"
      android:textSize="12sp"
      android:gravity="center"
-     app:iconGravity="textStart"
-     app:iconPadding="0dp"
-     style="?attr/materialButtonOutlinedStyle"
+     style="@style/MyButtonStyle"
      />
-
 </LinearLayout>

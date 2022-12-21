@@ -1,4 +1,4 @@
-package com.seo.finddoc.adapter
+package com.seo.finddoc.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
