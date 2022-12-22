@@ -1,6 +1,6 @@
 package com.seo.finddoc.data
 
-data class SearchedItem(
+data class SearchedData(
     val keyword: String,
     val date: String
 )

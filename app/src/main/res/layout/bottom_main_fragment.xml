@@ -30,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"
         style="@style/EditTextWrapper"
         android:theme="@style/EditTextWrapper"
+        app:startIconDrawable="@drawable/ic_search"
         >
         <EditText
             android:id="@+id/search_bar"
@@ -43,9 +44,6 @@
             android:textSize="14sp"
             android:inputType="none"
             android:focusable="false"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
-            android:drawablePadding="0dp"
-            android:drawableTint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

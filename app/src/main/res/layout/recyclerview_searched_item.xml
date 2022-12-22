@@ -6,7 +6,6 @@
     android:padding="10dp"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true"
     >
         <TextView
             android:id="@+id/searchedKewordTV"
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_cancel_24"
-            android:background="@android:color/white"
+            android:backgroundTint="@android:color/transparent"
             android:layout_gravity="center"
             />
 </LinearLayout>

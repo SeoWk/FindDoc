@@ -12,7 +12,7 @@
     app:behavior_peekHeight="450dp"
     app:layout_behavior="@string/bottom_sheet_behavior"
     >
-  <!--  <androidx.core.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,11 +32,6 @@
                 tools:listitem="@layout/recyclerview_hospitallist_item" >
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="바텀시트 테스트용" />
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
 

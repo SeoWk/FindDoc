@@ -1,4 +1,4 @@
-package com.seo.finddoc
+package com.seo.finddoc.fragment
 
 import android.os.Bundle
 import android.view.*
@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.seo.finddoc.fragment.BottomMypageFragment
+import com.seo.finddoc.MainActivity
+import com.seo.finddoc.R
+import com.seo.finddoc.bottom_navigation_view.BottomMypageFragment
 
 class PreferenceSettingsFragment : Fragment()  {
 
@@ -58,7 +60,7 @@ class PreferenceSettingsFragment : Fragment()  {
             android.R.id.home -> {
                 (activity as MainActivity).supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container,BottomMypageFragment.newInstance("마이페이지"))
+                    .replace(R.id.container, BottomMypageFragment.newInstance("마이페이지"))
                     .commit()
             }
             else -> throw IllegalStateException("")

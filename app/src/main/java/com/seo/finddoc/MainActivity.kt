@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.seo.finddoc.bottom_navigation_view.BottomFavoriteFragment
+import com.seo.finddoc.bottom_navigation_view.BottomMainFragment
+import com.seo.finddoc.bottom_navigation_view.BottomMypageFragment
 import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.AppSettingPreferenceManager
-import com.seo.finddoc.fragment.BottomFavoriteFragment
-import com.seo.finddoc.fragment.BottomMainFragment
-import com.seo.finddoc.fragment.BottomMypageFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

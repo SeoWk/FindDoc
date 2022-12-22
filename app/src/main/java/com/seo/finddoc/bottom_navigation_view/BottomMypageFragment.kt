@@ -1,13 +1,13 @@
-package com.seo.finddoc.fragment
+package com.seo.finddoc.bottom_navigation_view
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.seo.finddoc.MainActivity
-import com.seo.finddoc.PreferenceSettingsFragment
 import com.seo.finddoc.R
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.databinding.BottomMypageFragmentBinding
+import com.seo.finddoc.fragment.PreferenceSettingsFragment
 
 class BottomMypageFragment  : Fragment(){
     private lateinit var binding: BottomMypageFragmentBinding

@@ -1,4 +1,4 @@
-package com.seo.finddoc.fragment
+package com.seo.finddoc.bottom_navigation_view
 
 import android.Manifest
 import android.content.Context
@@ -33,6 +33,7 @@ import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
 import com.seo.finddoc.recyclerview.FilterItemDecoration
 import com.seo.finddoc.recyclerview.FilterRecyclerViewAdapter
+import com.seo.finddoc.recyclerview.SearchFragment
 
 class BottomMainFragment : Fragment(),OnMapReadyCallback {
     private lateinit var binding: BottomMainFragmentBinding
@@ -125,7 +126,7 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
             setOnClickListener {
                 activity.supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container,SearchFragment.newInstance("검색화면"))
+                    .replace(R.id.container, SearchFragment.newInstance("검색화면"))
                     .commit()
             }
         }

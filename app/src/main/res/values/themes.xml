@@ -2,17 +2,17 @@
     <!-- Base application theme. -->
     <style name="Theme.FindDoc" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/teal</item>
-        <item name="colorPrimaryVariant">@color/teal</item>
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/black</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@android:color/white</item>
+        <item name="colorSecondary">@color/main</item>
         <item name="colorSecondaryVariant">@android:color/white</item>
         <item name="colorOnSecondary">@color/black</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
 
         <!-- Customize your theme here. -->
         <item name="colorSurface">@android:color/white</item>
@@ -23,7 +23,6 @@
 
     <style name="MyButtonStyle" parent="Widget.AppCompat.Button">
         <item name="strokeWidth">0dp</item>
-        <item name="android:textColor">@color/black</item>
         <item name="iconTint">@color/black</item>
         <item name="iconPadding">2dp</item>
         <item name="iconGravity">textStart</item>
@@ -38,18 +37,32 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="EditTextStyle" >
+<!--    <style name="EditTextStyle" >
         <item name="android:textStyle">normal</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
-    </style>
+    </style>-->
 
     <style name="SpinnerDesign" parent="android:Widget.AutoCompleteTextView" >
 
     </style>
     <style name="EditTextWrapper" parent="Widget.Design.TextInputLayout" >
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item><!--unFocus 밑줄-->
+        <item name="boxStrokeColor">@android:color/white</item><!--Focus 밑줄-->
+        <item name="android:textColorHint">@color/light_gray</item><!--hint color-->
+        <item name="hintTextColor">@null</item> <!--floating hint color-->
+        <item name="hintEnabled">false</item> <!--floating hint color-->
+    </style>
+    <style name="CustomEditText" >
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:gravity">start|center</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="android:editTextColor">@color/black</item> <!-- text color -->
+        <item name="android:textColorHighlight">@null</item> <!-- selected text color -->
+        <item name="android:textColorHint">@color/light_gray</item>   <!-- hint color -->
     </style>
 
 

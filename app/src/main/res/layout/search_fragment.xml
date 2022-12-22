@@ -4,56 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.SearchFragment"
+    tools:context=".recyclerview.SearchFragment"
     android:orientation="vertical"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="?android:attr/windowBackground"
         >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             >
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundMode="none"
-                app:startIconDrawable="@drawable/ic_search"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
                 app:endIconMode="clear_text"
                 android:gravity="center"
+                style="@style/EditTextWrapper"
                 >
                 <EditText
                     android:id="@+id/search_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@android:color/transparent"
-                    android:gravity="start|center"
+                    android:layout_height="40dp"
                     android:hint="@string/search_hint"
-                    android:textAlignment="viewStart"
-                    android:inputType="text"
-                    android:maxLines="1"
+                    android:textSize="12sp"
                     android:imeOptions="actionSearch"
+                    android:imeActionLabel="검색"
                     android:importantForAutofill="no"
-
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    style="@style/CustomEditText"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <TextView
         android:id="@+id/recentSearchesTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="최근 검색어"
         android:textSize="12sp"
         android:textStyle="bold"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recentSearchesRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/recyclerview_recent_search_item"
-        />
+        tools:listitem="@layout/recyclerview_searched_item" />
 </LinearLayout>

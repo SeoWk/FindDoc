@@ -1,4 +1,4 @@
-package com.seo.finddoc.fragment
+package com.seo.finddoc.bottom_navigation_view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.adapter.FavoriteFragmentStateAdapter
 import com.seo.finddoc.databinding.BottomFavoriteFragmentBinding
+import com.seo.finddoc.fragment.FavoriteViewPagerFragment
 
 class BottomFavoriteFragment : Fragment() {
     private lateinit var binding: BottomFavoriteFragmentBinding
