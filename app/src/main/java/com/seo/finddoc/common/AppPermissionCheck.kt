@@ -11,6 +11,7 @@ const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
 class AppPermissionCheck(private val context: Context, private val target: Activity) {
 
+    //필요한 권한 정의
     private val permissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
@@ -48,5 +49,4 @@ class AppPermissionCheck(private val context: Context, private val target: Activ
         }
         return true
     }
-
 }

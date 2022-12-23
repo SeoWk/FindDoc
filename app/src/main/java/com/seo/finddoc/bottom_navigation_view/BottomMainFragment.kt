@@ -4,23 +4,21 @@ import android.Manifest
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import androidx.annotation.UiThread
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.LocationTrackingMode
+import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
@@ -31,15 +29,19 @@ import com.seo.finddoc.R
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
+import com.seo.finddoc.recyclerview.FilterButtonsAdapter
 import com.seo.finddoc.recyclerview.FilterItemDecoration
-import com.seo.finddoc.recyclerview.FilterRecyclerViewAdapter
 import com.seo.finddoc.recyclerview.SearchFragment
 
-class BottomMainFragment : Fragment(),OnMapReadyCallback {
+/**
+ *  프리퍼런스 수정 전까지 permissionCheck는 인스턴스 직접 생성
+ *  권한 허용 여부 안 뜨면서 허가된 것 관계 있는지 체크
+ */
+class BottomMainFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: BottomMainFragmentBinding
-    private lateinit var naverMap: NaverMap
+    private lateinit var nMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
-    private var isFabOpen = false
+    private var isFabOpen = true
     private lateinit var mContext : Context
 
     override fun onAttach(context: Context) {
@@ -57,62 +59,8 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermissionLocation()
         } else {
+            //거의 동작하지 않음
             initNaverMapLocation()
-        }
-
-        /**
-         * 스피너 양식 변경
-         */
-        val filterCtgAdapter = ArrayAdapter.createFromResource(
-            binding.root.context, R.array.filter_category, android.R.layout.simple_dropdown_item_1line
-        )
-        val filterSubjAdapter = ArrayAdapter.createFromResource(
-            binding.root.context, R.array.filter_medical_subject, android.R.layout.simple_dropdown_item_1line
-        )
-        /**
-         * 병원 선택시 진료과목 스피너
-         */
-        /*      with(binding.filterAT1) {
-                  setAdapter(filterCtgAdapter)
-         *//*         onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val item = resources.getStringArray(R.array.filter_array_item)
-                    when (position) {
-                        0 -> {
-                            toastMessage("""${item[0]}""")
-                        }
-                        1 -> {
-                            toastMessage("""${item[1]}""")
-                        }
-                        else -> {
-                            toastMessage("선택안함")
-                        }
-                    }
-                }
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
-        }*//*
-            setOnItemClickListener { adapterView, _, position, _ ->
-                val ctg = adapterView.getItemAtPosition(position) as String
-                if(ctg == "병원") {
-                    binding.filterAT2Layout.isVisible = true
-                    binding.filterAT2.setAdapter(filterSubjAdapter)
-                }else{
-                    binding.filterAT2Layout.isGone = true
-                }
-            }
-        }*/
-
-        with(binding.filterAT2) {
-            setOnItemClickListener { adapterView, _, position, _ ->
-                toastMessage(adapterView.getItemAtPosition(position) as String)
-            }
         }
 
         //버튼 리사이클러 뷰
@@ -155,7 +103,7 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
             }
         }
 
-        behavior.addBottomSheetCallback(object  : BottomSheetCallback(){
+        behavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 with(binding){
                     when (newState) {
@@ -186,9 +134,6 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
     private fun toggleFab(){
         with(binding) {
             // 지도 보기 클릭
@@ -197,7 +142,6 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
                 fabMap.isGone = true
                 fabList.isClickable = true
                 fabList.isVisible = true
-
                 // 목록보기 클릭
             } else {
                 fabList.isClickable = false
@@ -211,34 +155,43 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
     }
     //NaverMap 객체 불러오기
     private fun initNaverMapLocation() {
-/*        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
-        mapFragment!!.getMapAsync(this)*/
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
+        mapFragment!!.getMapAsync(this)
     }
 
+    //TedPermissionListener
     private val permissionListener = object : PermissionListener {
+        //이미 권한 있거나, 요청 허가됐을 때
         override fun onPermissionGranted() {
+            toastMessage("위치 권한 확인됨")
             initNaverMapLocation()
         }
+        //권한 거부시
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
             toastMessage("위치제공 허락을 해야 앱이 정상적으로 작동합니다")
-            (activity as MainActivity).finish()
+            ActivityCompat.finishAffinity(activity as MainActivity)
         }
     }
 
     private fun checkPermissionLocation(){
-        //위치권한 관련 요청- 위치 추적 기능
+        //위치권한 관련 요청
         TedPermission.create()
-            .setRationaleTitle("위치권한 요청")
+            .setRationaleTitle("권한 요청")
             .setPermissionListener(permissionListener)
-            .setRationaleMessage("지도 사용을 위해 위치제공접근권한이 필요합니다.")
+//            .setRationaleMessage("지도 사용을 위해 위치제공접근권한이 필요합니다.")
+                //권한이 없을 때 아이얼로그
+            .setDeniedMessage("권한을 허용해주세요")
             .setPermissions(
+                //요청할 권한들
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
             .check()
     }
 
-//퍼미션 체크
+    /**
+     * 삭제 예정?
+     */
 /*    private fun permissionCheck() {
         permissionCheck = AppPermissionCheck(applicationContext,this@MainActivity)
         if (!permissionCheck.currentAppCheckPermission()) {
@@ -251,11 +204,12 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         permissions: Array<out String>,
         grantResults: IntArray ) {
         if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
-            //권한 거부시 위치 추적하지 않음
+            //권한 거부시
             if (!locationSource.isActivated) {
-                naverMap.locationTrackingMode = LocationTrackingMode.None
+                //위치추적 모드 none
+                nMap.locationTrackingMode = LocationTrackingMode.None
             } else{
-                naverMap.locationTrackingMode = LocationTrackingMode.Follow
+                nMap.locationTrackingMode = LocationTrackingMode.Follow
             }
             return
         }
@@ -263,7 +217,7 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
     }
 
     private fun initRecycler(context: Context) {
-        val multiadapter = FilterRecyclerViewAdapter(context)
+        val multiadapter = FilterButtonsAdapter(context)
         with(binding.filterRV) {
 //            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
             adapter = multiadapter
@@ -277,7 +231,7 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
         }
 
         multiadapter.setOnItemClickListener(
-            object : FilterRecyclerViewAdapter.OnItemClickListener{
+            object : FilterButtonsAdapter.OnItemClickListener{
                 override fun onItemClick(position: Int) {
                     /**
                      * 작동불가
@@ -288,76 +242,204 @@ class BottomMainFragment : Fragment(),OnMapReadyCallback {
 
         multiadapter.notifyDataSetChanged()
     }
+    private fun setMarker(marker: Marker, lat: Double, lng: Double, num: Int) {
+        with(marker) {
+            icon = OverlayImage.fromResource(R.drawable.ic_marker_clinic_icon)
+            position = LatLng(lat, lng)
+/*
+            //원근감
+//                isIconPerspectiveEnabled = true
+
+            width = Marker.SIZE_AUTO
+            height = Marker.SIZE_AUTO
+
+            isForceShowIcon = true
+
+            tag = num
+
+            val listener = Overlay.OnClickListener { overlay ->
+                toastMessage("마커 클릭 됨 ${overlay.tag}")
+                false
+            }
+
+            onClickListener = listener*/
+            //마커를 지도에 추가
+            map = nMap
+        }
+    }
+
 
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
-        this.naverMap = naverMap
-
-        //위치 소스 지정
+        this.nMap = naverMap
+/*
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+
+        //위치 추적 사용
         this.naverMap.locationSource = locationSource
-        /**
-         * 마커 표시(병원, 약국 구분), 권한 확인?
-         */
-        val marker = Marker()
-        marker.icon = OverlayImage.fromResource(R.drawable.ic_marker_clinic_icon)
-//        marker.icon = OverlayImage.fromResource(R.drawable.ic_marker_pharmacy_icon)
-        marker.position = LatLng(
-            naverMap.cameraPosition.target.latitude,
-            naverMap.cameraPosition.target.longitude
+
+        *//**
+         * 중복으로 제거 예정
+         *//*
+        //현재위치 표시를 위한 권한 확인
+        AppPermissionCheck(mContext,activity as MainActivity).currentAppRequestPermissions()
+        //카메라 설정
+        val cameraPosition = CameraPosition(
+            LatLng(37.472676, 126.896030),
+            16.0
         )
-//        마커 아이콘 크기(wrap_content로)
-        marker.width = Marker.SIZE_AUTO
-        marker.height = Marker.SIZE_AUTO
+        naverMap.cameraPosition = cameraPosition
 
-        //겹쳐도 무조건 표시
-        marker.isForceShowIcon = true
-
-        marker.map = naverMap
+        val marker = Marker()
+        with(marker) {
+            position =  LatLng(37.472676, 126.896030)
+            icon = OverlayImage.fromResource(R.drawable.ic_marker_clinic_icon)
+            map = naverMap
+        }
 
         //카메라 움직임
         naverMap.addOnCameraChangeListener  { reason, animated ->
-            Log.i("NaverMap", "카메라 변경 - reson: $reason, animated: $animated")
+//            Log.i("NaverMap", "카메라 변경 - reson: $reason, animated: $animated")
         }
 
         // 카메라의 움직임 종료
         naverMap.addOnCameraIdleListener {
 
         }
+
+        //건물 표시
+        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING, true);
+
+
+
+
+
+        *//**
+         * 마커 표시(병원, 약국 구분), 권한 확인?
+         *//*
+
+*//*
+val executor: Executor =
+        val handler = Handler(Looper.getMainLooper())
+
+        executor.execute {
+            // 백그라운드 스레드
+            val markers = mutableListOf<Marker>()
+
+            repeat(1000) {
+                markers += Marker().apply {
+                    position = ...
+                    icon = ...
+                    captionText = ...
+                }
+            }
+
+            handler.post {
+                // 메인 스레드
+                markers.forEach { marker ->
+                    marker.map = naverMap
+                }
+            }
+        }*//*
+
+
+
+
+        *//*       val marker = Marker()
+               marker.icon = OverlayImage.fromResource(R.drawable.ic_marker_clinic_icon)
+       //        marker.icon = OverlayImage.fromResource(R.drawable.ic_marker_pharmacy_icon)
+               marker.position = LatLng(
+                   naverMap.cameraPosition.target.latitude,
+                   naverMap.cameraPosition.target.longitude
+               )
+       //        마커 아이콘 크기(wrap_content로)
+               marker.width = Marker.SIZE_AUTO
+               marker.height = Marker.SIZE_AUTO
+
+               //겹쳐도 무조건 표시
+               marker.isForceShowIcon = true
+
+               //마커를 지도에 추가
+               marker.map = naverMap
+
+               marker.setOnClickListener {
+       //            Toast.makeText(this, "마커 1 클릭", Toast.LENGTH_SHORT).show()
+                   // onMapClick 이벤트 전파
+                   false
+               }*//*
+
+        *//**
+         * 경로 표시하기
+         *//*
+*//*        val bounds = LatLngBounds.Builder()
+            .include(LatLng(37.5640984, 126.9712268))
+            .include(LatLng(37.5651279, 126.9767904))
+            .include(LatLng(37.5625365, 126.9832241))
+            .include(LatLng(37.5585305, 126.9809297))
+            .include(LatLng(37.5590777, 126.974617))
+            .build()*//*
+
+        //지도 클릭 이벤트 - 좌표 전달
+        naverMap.setOnMapClickListener { pointF, latLng ->
+            *//*           Toast.makeText(this, "${latLng.latitude}, ${latLng.longitude}",
+                           Toast.LENGTH_SHORT).show()*//*
+        }
+
+
+
+
         //위치 변경 이벤트
         naverMap.addOnLocationChangeListener { location ->
-/*            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
-                Toast.LENGTH_SHORT).show()*/
+*//*            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
+                Toast.LENGTH_SHORT).show()*//*
         }
         //지도 중심 잡기 - UI 요소에 가려진 영역을 콘텐츠 패딩으로 지정
         this.naverMap.setContentPadding(0,0,0,0)
 
 
         //카메라 영역 제한 - 한반도
-        this.naverMap.extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
+        this.naverMap.extent = LatLngBounds(
+            LatLng(31.43, 122.37),
+            LatLng(44.35, 132.0)
+        )
         // + 줌 레벨
         this.naverMap.minZoom = 5.0
         this.naverMap.maxZoom = 18.0
 
+        //실내지도 활성화
+        naverMap.isIndoorEnabled = true
+
+
         //UI 설정 - map 컨트롤 활성화, 제스처
         val uiSettings = this.naverMap.uiSettings.apply {
+            //나침반
             isCompassEnabled = false
-            //isScaleBarEnabled = false
+            //축척바
+            isScaleBarEnabled = false
+            //줌버튼
             //isZoomControlEnabled = false
+            //실내지도 구역의 층
             isIndoorLevelPickerEnabled = true
-            /**
+            *//**
              * 현위치 버튼 위치바꾸되 정상 동작하게 만들기
-             */
+             *//*
             isLocationButtonEnabled = true
             //기울임 비활성화
             isTiltGesturesEnabled = false
             isStopGesturesEnabled = true
-        }
+
+            //네이버 로고 조작
+//            logoGravity
+//            logoMargin
+//            isLogoClickEnabled = false
+        }*/
     }
 
 
     companion object{
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
+//        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
         fun newInstance(title: String): Fragment {
             val fragment: Fragment = BottomMainFragment()
             val bundle = Bundle()

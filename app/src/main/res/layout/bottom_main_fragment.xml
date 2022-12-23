@@ -7,12 +7,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-<!--    <fragment
+    <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.naver.maps.map.MapFragment"
-        />-->
+        />
+    <!--현위치 버튼 커스텀-->
     <!--        <com.naver.maps.map.widget.LocationButtonView
                 android:id="@+id/location_button"
                 android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
                 android:layout_margin="12dp"
                 android:layout_gravity="left|center"
                 tools:ignore="MissingConstraints" />-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_bar_layout"
         android:layout_width="match_parent"

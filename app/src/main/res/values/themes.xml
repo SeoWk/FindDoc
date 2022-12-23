@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/black</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/main</item>
+        <item name="colorSecondary">@android:color/white</item>
         <item name="colorSecondaryVariant">@android:color/white</item>
         <item name="colorOnSecondary">@color/black</item>
 

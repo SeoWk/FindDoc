@@ -44,9 +44,12 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    //권한 부여
+    //권한 확인
     private lateinit var permissionCheck: AppPermissionCheck
 
+    /**
+     * PreferenceManager 수정하기
+     */
     override fun onResume() {
         super.onResume()
         if (!AppSettingPreferenceManager.getInstance(this).isLocation) {

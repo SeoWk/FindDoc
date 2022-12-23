@@ -17,7 +17,7 @@ const val multi_type1 = 1
 const val multi_type2 = 2
 const val multi_type3 = 3
 
-class FilterRecyclerViewAdapter(
+class FilterButtonsAdapter(
     private val context: Context,
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -40,7 +40,6 @@ class FilterRecyclerViewAdapter(
     }
 
     inner class ViewHolder1(view: View): RecyclerView.ViewHolder(view) {
-        private var flag = true
         private val spinner: AutoCompleteTextView = view.findViewById(R.id.filterAT)
         private val filterCtgAdapter = ArrayAdapter.createFromResource(
             context,
@@ -54,25 +53,15 @@ class FilterRecyclerViewAdapter(
                 setOnItemClickListener { adapterView, _, position, _ ->
                     val ctg = adapterView.getItemAtPosition(position) as String
                     val subject = FilterData("전체",3)
-                    if(flag) {
-                        toastMessage(ctg)
-                        /**
-                         * "병원 "선택일 때만 type3 추가시키고 "약국"일 땐 삭제 및 추가하지 않기
-                         * flag , notify- 수정
-                         */
-                        if(ctg == "병원") {
-                            datas.add(0,subject)
-                            notifyItemInserted(0)
-                            flag = true
-                        }
-                    }else {
-                        if(ctg == "약국") {
-                            datas.remove(subject)
-                            notifyItemRemoved(0)
-                        }
+
+                    if(ctg == "병원" && datas.none { it == subject }) {
+                        datas.add(0,subject)
+//                        notifyItemInserted(0)
+                    }else if(ctg == "약국" && datas.any { it == subject }) {
+                        datas.remove(subject)
+//                        notifyItemRemoved(0)
                     }
-                    notifyItemChanged(0)
-                    flag = !flag
+                    notifyDataSetChanged()
                 }
                 setOnClickListener{
                     val position = adapterPosition
@@ -162,15 +151,15 @@ class FilterRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(datas[position].type) {
             multi_type1 -> {
-                (holder as FilterRecyclerViewAdapter.ViewHolder1).bind(datas[position])
+                (holder as FilterButtonsAdapter.ViewHolder1).bind(datas[position])
                 holder.setIsRecyclable(false)
             }
             multi_type3 -> {
-                (holder as FilterRecyclerViewAdapter.ViewHolder3).bind(datas[position])
+                (holder as FilterButtonsAdapter.ViewHolder3).bind(datas[position])
                 holder.setIsRecyclable(false)
             }
             else -> {
-                (holder as FilterRecyclerViewAdapter.ViewHolder2).bind(datas[position])
+                (holder as FilterButtonsAdapter.ViewHolder2).bind(datas[position])
                 holder.setIsRecyclable(false)
             }
         }

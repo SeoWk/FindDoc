@@ -93,13 +93,7 @@ class SearchFragment : Fragment() {
         }
 
         with(binding.searchEditText) {
- /*           setOnKeyListener { _, keyCode, _ ->
-                if(keyCode == KeyEvent.KEYCODE_ENTER){
-                    searchComplete()
-                }
-                false
-            }*/
-            setOnEditorActionListener { v, actionId, event ->
+            setOnEditorActionListener { _, actionId, _ ->
                 var handled = false
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchComplete()
@@ -149,9 +143,9 @@ class SearchFragment : Fragment() {
      * 키보드 입력 바로 뜰 수 있게
      */
     private fun searchComplete(){
-        var getKeyword = binding.searchEditText.text
+        var getKeyword = binding.searchEditText.text.toString()
         viewModel.addData(getKeyword.toString())
-        getKeyword = null
+        binding.searchEditText.text = null
     }
 
     companion object {
