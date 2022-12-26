@@ -41,6 +41,7 @@ class BottomMypageFragment  : Fragment(){
         }
 
         //옵션 메뉴
+        @Suppress("DEPRECATION")
         setHasOptionsMenu(true)
 
         return binding.root

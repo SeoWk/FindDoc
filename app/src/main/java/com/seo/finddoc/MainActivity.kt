@@ -1,6 +1,11 @@
 package com.seo.finddoc
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,6 +14,10 @@ import com.seo.finddoc.bottom_navigation_view.BottomMainFragment
 import com.seo.finddoc.bottom_navigation_view.BottomMypageFragment
 import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.AppSettingPreferenceManager
+import com.seo.finddoc.common.toastMessage
+
+const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
+const val LBS_CHECK_CODE = 100
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +44,46 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNavigation.itemIconTintList = null
 
+        //네트워크 가능 여부
+        if (isNetworkAvailable()) {
+            /**
+             * 스플래시 이후...중간에 끊어진 경우 종료되도록. 관찰 가능한 리스너 필요
+             */
+
+        }else{
+            Log.e(LBS_CHECK_TAG, "네트워크에 연결되지 않음")
+            toastMessage("네트워크에 연결되지 않아 사용종료됩니다")
+            finish()
+        }
+
+
+
     }
+
+    //네트워크 확인
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = cm.activeNetwork ?: return false
+            val networkCapabilities = cm.getNetworkCapabilities(nw) ?: return false
+            return when {
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                //데이터 네트워크 연결시
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //IOT 장비 등
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //블루투스 인터넷
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else{
+            @Suppress("DEPRECATION")
+            return cm.activeNetworkInfo?.isConnected ?: false
+        }
+    }
+
+
+
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager

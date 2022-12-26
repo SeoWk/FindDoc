@@ -22,6 +22,7 @@ class AppPermissionCheck(private val context: Context, private val target: Activ
 
     private val permissionList = mutableListOf<String>()
 
+    //요청 전 승인 여부확인
     fun currentAppCheckPermission(): Boolean{
         for(permission in permissions){
             val result = ContextCompat.checkSelfPermission(context, permission)
@@ -35,10 +36,12 @@ class AppPermissionCheck(private val context: Context, private val target: Activ
         return true
     }
 
+    //권한 요청
     fun currentAppRequestPermissions(){
         ActivityCompat.requestPermissions(target, permissionList.toTypedArray(), LOCATION_PERMISSION_REQUEST_CODE)
     }
 
+    //요청 결과
     fun currentAppPermissionsResult(requestCode : Int, grantResults : IntArray): Boolean {
         if(requestCode == LOCATION_PERMISSION_REQUEST_CODE && (grantResults.isNotEmpty())){
             for(result in grantResults){
