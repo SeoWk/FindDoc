@@ -25,22 +25,30 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.seo.finddoc.BuildConfig.DATA_API_KEY
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
 import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
+import com.seo.finddoc.common.TYPE_JSON
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
+import com.seo.finddoc.json_data.HospitalInfoBody
 import com.seo.finddoc.recyclerview.FilterButtonsAdapter
 import com.seo.finddoc.recyclerview.FilterItemDecoration
 import com.seo.finddoc.recyclerview.SearchFragment
+import com.seo.finddoc.retrofit.RetrofitManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  *  프리퍼런스 수정 전까지 permissionCheck는 인스턴스 직접 생성
  *  권한 허용 여부 안 뜨면서 허가된 것 관계 있는지 체크
  */
 class BottomMainFragment : Fragment(), OnMapReadyCallback {
-    private lateinit var binding: BottomMainFragmentBinding
+    private var _binding: BottomMainFragmentBinding? =null
+    private val binding get() = _binding!!
     private lateinit var nMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var locationClient: FusedLocationProviderClient
@@ -57,7 +65,8 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = BottomMainFragmentBinding.inflate(inflater, container, false)
+        _binding = BottomMainFragmentBinding.inflate(inflater, container, false)
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermissionLocation()
@@ -167,7 +176,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
                 childFragmentManager.beginTransaction().add(R.id.map, it).commit()
             }
         mapFragment.getMapAsync(this)
-        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
     }
 
     //TedPermissionListener
@@ -333,8 +341,8 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
 
             //겹쳐도 무조건 표시
             *//**
-             * 겹칠 경우 선택하여 이벤트 구현
-             *//*
+         * 겹칠 경우 선택하여 이벤트 구현
+         *//*
             isForceShowIcon = true
 
             //지도 심벌 겹칠 시 숨김
@@ -483,9 +491,40 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     /**
      * 좌표 주소 변환
      */
-//    var currentLocation : Location?
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        selectHospitalCode()
+    }
 
+    private fun selectHospitalCode() {
+        val call : Call<HospitalInfoBody>
+                = RetrofitManager.getRetrofitHospitalRestService().getHospitalCode(
+            DATA_API_KEY,
+            TYPE_JSON,
+            1
+        )
+
+        call.enqueue(object : Callback<HospitalInfoBody> {
+            override fun onResponse(call: Call<HospitalInfoBody>, response: Response<HospitalInfoBody>){
+                if (response.isSuccessful) {
+                    val hospitalItem = response.body() as HospitalInfoBody
+                    toastMessage("성공?")
+                }
+            }
+            override fun onFailure(call: Call<HospitalInfoBody>, t: Throwable) {
+//                call.cancel()
+                toastMessage("실패?")
+
+            }
+        })
+    }
+
+    //    var currentLocation : Location?
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     companion object{
         //        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000

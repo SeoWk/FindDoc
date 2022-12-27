@@ -16,10 +16,13 @@ import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.AppSettingPreferenceManager
 import com.seo.finddoc.common.toastMessage
 
-const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
-const val LBS_CHECK_CODE = 100
+
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
+        const val LBS_CHECK_CODE = 100
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNavigation.setOnItemSelectedListener { it ->
+        bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home_item -> replaceFragment(BottomMainFragment.newInstance("홈"))
                 R.id.favorite_item -> replaceFragment(BottomFavoriteFragment.newInstance("즐겨찾기"))
@@ -44,11 +47,15 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNavigation.itemIconTintList = null
 
+
+        /**
+         * 스플래시 이후...중간에 끊어진 경우 종료되도록. 관찰 가능한 리스너 필요 ConnectivityManager.NetworkCallback()
+         *
+         */
+
         //네트워크 가능 여부
         if (isNetworkAvailable()) {
-            /**
-             * 스플래시 이후...중간에 끊어진 경우 종료되도록. 관찰 가능한 리스너 필요
-             */
+
 
         }else{
             Log.e(LBS_CHECK_TAG, "네트워크에 연결되지 않음")
@@ -56,17 +63,16 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-
-
     }
 
-    //네트워크 확인
+    //네트워크 접속 확인
     private fun isNetworkAvailable(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val nw = cm.activeNetwork ?: return false
             val networkCapabilities = cm.getNetworkCapabilities(nw) ?: return false
             return when {
+                //와이파이
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 //데이터 네트워크 연결시
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -81,9 +87,6 @@ class MainActivity : AppCompatActivity() {
             return cm.activeNetworkInfo?.isConnected ?: false
         }
     }
-
-
-
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager

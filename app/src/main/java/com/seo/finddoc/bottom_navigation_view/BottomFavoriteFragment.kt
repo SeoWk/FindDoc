@@ -14,7 +14,9 @@ import com.seo.finddoc.databinding.BottomFavoriteFragmentBinding
 import com.seo.finddoc.fragment.FavoriteViewPagerFragment
 
 class BottomFavoriteFragment : Fragment() {
-    private lateinit var binding: BottomFavoriteFragmentBinding
+
+    private var _binding: BottomFavoriteFragmentBinding? = null
+    private val binding get() = _binding!!
     private var tabItems = listOf("병원", "약국")
     companion object{
         fun newInstance(title: String): Fragment {
@@ -31,7 +33,7 @@ class BottomFavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = BottomFavoriteFragmentBinding.inflate(inflater,container,false)
+        _binding = BottomFavoriteFragmentBinding.inflate(inflater,container,false)
 
         //툴바 셋팅
         val activity = activity as MainActivity
@@ -71,12 +73,9 @@ class BottomFavoriteFragment : Fragment() {
         return binding.root
     }
 
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
-
 
 }

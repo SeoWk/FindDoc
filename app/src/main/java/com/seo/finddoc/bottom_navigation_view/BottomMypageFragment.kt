@@ -10,8 +10,8 @@ import com.seo.finddoc.databinding.BottomMypageFragmentBinding
 import com.seo.finddoc.fragment.PreferenceSettingsFragment
 
 class BottomMypageFragment  : Fragment(){
-    private lateinit var binding: BottomMypageFragmentBinding
-
+    private var _binding: BottomMypageFragmentBinding? = null
+    private val binding get() = _binding!!
     companion object{
         fun newInstance(title: String): Fragment {
             val fragment: Fragment = BottomMypageFragment()
@@ -27,7 +27,7 @@ class BottomMypageFragment  : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = BottomMypageFragmentBinding.inflate(inflater,container,false)
+        _binding = BottomMypageFragmentBinding.inflate(inflater,container,false)
 
         //툴바 셋팅
         val activity = activity as MainActivity
@@ -68,4 +68,8 @@ class BottomMypageFragment  : Fragment(){
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
