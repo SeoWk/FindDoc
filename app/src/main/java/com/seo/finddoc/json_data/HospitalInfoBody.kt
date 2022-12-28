@@ -1,8 +1,10 @@
 package com.seo.finddoc.json_data
 
+import com.google.gson.annotations.SerializedName
+
 data class HospitalInfoBody(
-    val items: List<HospitalItems>,
-    var numOfRows : Int,
-    var pageNo: Int,
-    var totalCount: Int
+    @SerializedName("items") val items: HospitalItems,
+    @SerializedName("numOfRows") var numOfRows : Int,
+    @SerializedName("pageNo") var pageNo: Int,
+    @SerializedName("totalCount") var totalCount: Int
 )

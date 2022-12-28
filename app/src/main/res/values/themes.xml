@@ -64,6 +64,13 @@
         <item name="android:textColorHighlight">@null</item> <!-- selected text color -->
         <item name="android:textColorHint">@color/light_gray</item>   <!-- hint color -->
     </style>
+    <!--BottomSheetDialog Custom-->
+    <style name="BottomSheetTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+    </style>
 
 
 </resources>

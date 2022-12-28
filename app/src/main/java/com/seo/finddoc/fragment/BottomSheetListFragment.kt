@@ -4,18 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.seo.finddoc.R
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.BottomSheetLayoutBinding
 import com.seo.finddoc.recyclerview.HospitalListAdapter
 import com.seo.finddoc.recyclerview.PharmacyListAdapter
 
-class BottomSheetListFragment : Fragment() {
+class BottomSheetListFragment : BottomSheetDialogFragment() {
     private var _binding: BottomSheetLayoutBinding? = null
     private val binding get() = _binding!!
+    private  lateinit var parent_fab : ExtendedFloatingActionButton
 
     companion object {
         const val TAG = "BottomSheetListFragment"
@@ -27,6 +31,11 @@ class BottomSheetListFragment : Fragment() {
             }
             return fragment
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.BottomSheetTheme)
     }
 
     override fun onCreateView(
@@ -50,8 +59,6 @@ class BottomSheetListFragment : Fragment() {
              *             병원/약국 나뉘면 주석 해제
              */
 
-
-
             val dept = bundle?.getString("department")
             when (dept) {
                 "병원" -> adapter = HospitalListAdapter(hospitalList())
@@ -61,6 +68,46 @@ class BottomSheetListFragment : Fragment() {
 
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
+        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+        behavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                with(binding){
+                    when (newState) {
+                        BottomSheetBehavior.STATE_HIDDEN -> {
+                            dismiss()
+                        }
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            /*                        fabMap.isVisible = true
+                                                    fabMap.isFocusable = true*/
+                        }
+                        BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                        }
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+                        }
+                        BottomSheetBehavior.STATE_DRAGGING -> {
+                        }
+                        BottomSheetBehavior.STATE_SETTLING -> {
+                        }
+                    }
+                }
+
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+
+        //재 생성시 성 유지
+        behavior.saveFlags
     }
 
     override fun onDestroyView() {
@@ -140,5 +187,7 @@ class BottomSheetListFragment : Fragment() {
         )
     }
 
-
+    fun setParentFab(fab : ExtendedFloatingActionButton) {
+        this.parent_fab = fab
+    }
 }

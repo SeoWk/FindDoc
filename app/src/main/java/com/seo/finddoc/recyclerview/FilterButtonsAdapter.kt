@@ -9,7 +9,6 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.seo.finddoc.R
-import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
 
 
@@ -57,11 +56,13 @@ class FilterButtonsAdapter(
                     if(ctg == "병원" && datas.none { it == subject }) {
                         datas.add(0,subject)
 //                        notifyItemInserted(0)
+
                     }else if(ctg == "약국" && datas.any { it == subject }) {
                         datas.remove(subject)
 //                        notifyItemRemoved(0)
+                        notifyDataSetChanged()
+
                     }
-                    notifyDataSetChanged()
                 }
                 setOnClickListener{
                     val position = adapterPosition
@@ -101,7 +102,7 @@ class FilterButtonsAdapter(
                 setAdapter(filterSubjAdapter)
                 setOnItemClickListener { adapterView, _, position, _ ->
                     val ctg = adapterView.getItemAtPosition(position) as String
-                    toastMessage(ctg)
+//                    toastMessage(ctg)
                 }
                 setOnClickListener{
                     val position = adapterPosition

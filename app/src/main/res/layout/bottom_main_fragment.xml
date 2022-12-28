@@ -106,13 +106,6 @@
             android:orientation="horizontal"
             tools:listitem="@layout/recyclerview_filter_item2"
             />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <include layout="@layout/bottom_sheet_layout" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 
     <!--        <FrameLayout

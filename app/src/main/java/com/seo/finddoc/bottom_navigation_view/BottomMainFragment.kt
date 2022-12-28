@@ -8,14 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
@@ -33,11 +31,12 @@ import com.seo.finddoc.common.TYPE_JSON
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
+import com.seo.finddoc.fragment.BottomSheetListFragment
 import com.seo.finddoc.json_data.HospitalInfoBody
+import com.seo.finddoc.network.RetrofitManager
 import com.seo.finddoc.recyclerview.FilterButtonsAdapter
 import com.seo.finddoc.recyclerview.FilterItemDecoration
 import com.seo.finddoc.recyclerview.SearchFragment
-import com.seo.finddoc.retrofit.RetrofitManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -91,62 +90,27 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-//        val bottomSheetListFragment = BottomSheetListFragment.newInstance("병원")
-//        bottomSheetListFragment.show(childFragmentManager,BottomSheetListFragment.TAG)
         /**
-         * 바텀 시트 구현하기 - include 안되는 중
+         * persistent로 전환, 버튼 연결
          */
-        val bottomSheetLayout = binding.root.findViewById(R.id.bottomSheetLayout) as LinearLayout
-        val behavior= BottomSheetBehavior.from(bottomSheetLayout)
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        behavior.state = BottomSheetBehavior.STATE_HIDDEN
-        behavior.peekHeight = 280
-        behavior.isHideable = true
+        //bottomSheet
+        val listBottomSheet = BottomSheetListFragment.newInstance("약국")
+        listBottomSheet.show(childFragmentManager,BottomSheetListFragment.TAG)
+
+        listBottomSheet.setParentFab(binding.fabList)
+        listBottomSheet.setParentFab(binding.fabMap)
+
 
         with(binding) {
             //목록보기
             fabList.setOnClickListener {
                 toggleFab()
-                behavior.peekHeight = 280
-                behavior.isHideable = true
             }
-
             //지도보기
             fabMap.setOnClickListener {
                 toggleFab()
             }
         }
-
-        behavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                with(binding){
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> {
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                            /*                        fabMap.isVisible = true
-                                                    fabMap.isFocusable = true*/
-                        }
-                        BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        }
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                        }
-                        BottomSheetBehavior.STATE_DRAGGING -> {
-                        }
-                        BottomSheetBehavior.STATE_SETTLING -> {
-                        }
-                    }
-                }
-
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        })
-
-
 
         return binding.root
     }
@@ -247,7 +211,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             addItemDecoration(FilterItemDecoration(10))
         }
         multiadapter.datas = mutableListOf<FilterData>().apply {
-//            add(FilterData("전체",3))
             add(FilterData("병원",1))
             add(FilterData("진료중",2))
             add(FilterData( "기타",2))
@@ -340,7 +303,8 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             captionTextSize = 12f
 
             //겹쳐도 무조건 표시
-            *//**
+            */
+        /**
          * 겹칠 경우 선택하여 이벤트 구현
          *//*
             isForceShowIcon = true
@@ -497,6 +461,9 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         selectHospitalCode()
     }
 
+    /**
+     * 작동불가
+     */
     private fun selectHospitalCode() {
         val call : Call<HospitalInfoBody>
                 = RetrofitManager.getRetrofitHospitalRestService().getHospitalCode(
@@ -508,13 +475,14 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         call.enqueue(object : Callback<HospitalInfoBody> {
             override fun onResponse(call: Call<HospitalInfoBody>, response: Response<HospitalInfoBody>){
                 if (response.isSuccessful) {
-                    val hospitalItem = response.body() as HospitalInfoBody
-                    toastMessage("성공?")
+                    val hospitalInfoBody = response.body() as HospitalInfoBody
+                    toastMessage("성공")
                 }
             }
             override fun onFailure(call: Call<HospitalInfoBody>, t: Throwable) {
 //                call.cancel()
-                toastMessage("실패?")
+                toastMessage("""실패 - ${t.printStackTrace()}""")
+
 
             }
         })

@@ -1,5 +1,7 @@
 package com.seo.finddoc.json_data
 
+import com.google.gson.annotations.SerializedName
+
 data class HospitalItems(
-    val item: List<HospitalEntity>
+    @SerializedName("item") val item: HospitalEntity
 )
