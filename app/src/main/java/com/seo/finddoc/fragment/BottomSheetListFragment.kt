@@ -1,3 +1,4 @@
+/*
 package com.seo.finddoc.fragment
 
 import android.os.Bundle
@@ -50,14 +51,17 @@ class BottomSheetListFragment : BottomSheetDialogFragment() {
         val divider  = DividerItemDecoration(context,LinearLayoutManager.VERTICAL)
         val bundle = arguments
 
-        with(binding.hospitalRV) {
+        with(binding.bottomSheetRV) {
             layoutManager = manager
             addItemDecoration(divider)
 //            adapter = HospitalListAdapter(hospitalList())
 
-            /**
-             *             병원/약국 나뉘면 주석 해제
-             */
+            */
+/**
+ *             병원/약국 나뉘면 주석 해제
+ */
+/*
+
 
             val dept = bundle?.getString("department")
             when (dept) {
@@ -86,8 +90,10 @@ class BottomSheetListFragment : BottomSheetDialogFragment() {
                             dismiss()
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
-                            /*                        fabMap.isVisible = true
-                                                    fabMap.isFocusable = true*/
+                            */
+/*                        fabMap.isVisible = true
+                                                    fabMap.isFocusable = true*//*
+
                         }
                         BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                         }
@@ -191,3 +197,4 @@ class BottomSheetListFragment : BottomSheetDialogFragment() {
         this.parent_fab = fab
     }
 }
+*/

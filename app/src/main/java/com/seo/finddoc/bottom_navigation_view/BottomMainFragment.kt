@@ -8,12 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
@@ -30,12 +35,13 @@ import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
 import com.seo.finddoc.common.TYPE_JSON
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
+import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
-import com.seo.finddoc.fragment.BottomSheetListFragment
 import com.seo.finddoc.json_data.HospitalInfoBody
 import com.seo.finddoc.network.RetrofitManager
 import com.seo.finddoc.recyclerview.FilterButtonsAdapter
 import com.seo.finddoc.recyclerview.FilterItemDecoration
+import com.seo.finddoc.recyclerview.PharmacyListAdapter
 import com.seo.finddoc.recyclerview.SearchFragment
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,6 +59,8 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     private lateinit var locationClient: FusedLocationProviderClient
     private var isFabOpen = true
     private lateinit var mContext : Context
+    private lateinit var bottomSheet: LinearLayout
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -94,21 +102,68 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
          * persistent로 전환, 버튼 연결
          */
         //bottomSheet
-        val listBottomSheet = BottomSheetListFragment.newInstance("약국")
-        listBottomSheet.show(childFragmentManager,BottomSheetListFragment.TAG)
+//        val listBottomSheet = BottomSheetListFragment.newInstance("약국")
+//        listBottomSheet.show(childFragmentManager,BottomSheetListFragment.TAG)
+//
+//        listBottomSheet.setParentFab(binding.fabList)
+//        listBottomSheet.setParentFab(binding.fabMap)
 
-        listBottomSheet.setParentFab(binding.fabList)
-        listBottomSheet.setParentFab(binding.fabMap)
+        bottomSheet = binding.root.findViewById(R.id.bottomSheetLayout)
+        val bottomSheetRV = bottomSheet.findViewById<RecyclerView>(R.id.bottomSheetRV)
+        with(bottomSheetRV) {
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            /**
+             * 병원, 약국 구분
+             */
+            adapter = PharmacyListAdapter(pharmacyList())
+        }
+
+        val bsBehavior = BottomSheetBehavior.from(bottomSheet)
+        bsBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+        bsBehavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                with(binding){
+                    when (newState) {
+                        BottomSheetBehavior.STATE_HIDDEN -> {
+
+                        }
+                        BottomSheetBehavior.STATE_EXPANDED -> {
+                            bsBehavior.peekHeight = 400
+                        }
+                        BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                        }
+                        BottomSheetBehavior.STATE_COLLAPSED -> {
+                        }
+                        BottomSheetBehavior.STATE_DRAGGING -> {
+                        }
+                        BottomSheetBehavior.STATE_SETTLING -> {
+                        }
+                    }
+                }
+
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+        /**
+         *
+         */
+        bsBehavior.saveFlags
 
 
         with(binding) {
             //목록보기
             fabList.setOnClickListener {
                 toggleFab()
+                bsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
             //지도보기
             fabMap.setOnClickListener {
                 toggleFab()
+                bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
             }
         }
 
@@ -489,10 +544,44 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     }
 
     //    var currentLocation : Location?
+
+    /**
+     * 삭제예정 - bottom sheet 내용
+     */
+    private fun pharmacyList() = mutableListOf<PharmacyListItem>().apply {
+        add(
+            PharmacyListItem("가 약국","약국","영업중",
+                "12:00 점심시간","430m","가산동")
+        )
+        add(
+            PharmacyListItem("나 약국","약국","영업중",
+                "12:00 점심시간","530m","가산동")
+        )
+        add(
+            PharmacyListItem("다 약국","약국","영업중",
+                "12:00 점심시간","630m","가산동")
+        )
+        add(
+            PharmacyListItem("라 약국","약국","영업중",
+                "12:00 점심시간","730m","가산동")
+        )
+        add(
+            PharmacyListItem("마 약국","약국","영업중",
+                "12:00 점심시간","830m","가산동")
+        )
+        add(
+            PharmacyListItem("바 약국","약국","영업중",
+                "12:00 점심시간","930m","가산동")
+        )
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
 
     companion object{
         //        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000

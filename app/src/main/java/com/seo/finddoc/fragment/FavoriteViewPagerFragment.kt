@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.seo.finddoc.recyclerview.HospitalListAdapter
-import com.seo.finddoc.recyclerview.PharmacyListAdapter
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.ViewpagerItemBinding
+import com.seo.finddoc.recyclerview.HospitalListAdapter
+import com.seo.finddoc.recyclerview.PharmacyListAdapter
 
 class FavoriteViewPagerFragment : Fragment() {
     private var _binding: ViewpagerItemBinding? = null
@@ -59,6 +59,9 @@ class FavoriteViewPagerFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * 삭제예정
+     */
     private fun hospitalList() = mutableListOf<HospitalListItem>().apply {
         add(
             HospitalListItem("홍길동의원","내과","진료중",
@@ -103,8 +106,10 @@ class FavoriteViewPagerFragment : Fragment() {
                 "정보10",
             ))
     }
-
-    private fun pharmacyList() = mutableListOf<PharmacyListItem>().apply {
+    /**
+     * 삭제예정
+     */
+    fun pharmacyList() = mutableListOf<PharmacyListItem>().apply {
         add(
             PharmacyListItem("가 약국","약국","영업중",
                 "12:00 점심시간","430m","가산동")

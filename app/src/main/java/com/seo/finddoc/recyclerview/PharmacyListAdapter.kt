@@ -35,4 +35,5 @@ class PharmacyListAdapter(
     }
 
     override fun getItemCount() = pharmacyList.size
+
 }

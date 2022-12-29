@@ -4,8 +4,6 @@ plugins {
     id 'kotlin-kapt'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     namespace 'com.seo.finddoc'
@@ -20,14 +18,18 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //api key 변수
-        buildConfigField "String", "DATA_API_KEY", properties['data_api_key']
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'DATA_API_KEY', data_api_key
+            resValue 'string', 'DATA_API_KEY', data_api_key
+        }
+        debug {
+            buildConfigField 'String', 'DATA_API_KEY', data_api_key
+            resValue 'string', 'DATA_API_KEY', data_api_key
         }
     }
     compileOptions {

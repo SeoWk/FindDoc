@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.seo.finddoc.R
 import com.seo.finddoc.data.FilterData
 
-
+/**
+ * 스피너 선택값 반영 안되는 문제
+ */
 const val multi_type1 = 1
 const val multi_type2 = 2
 const val multi_type3 = 3
@@ -55,11 +57,9 @@ class FilterButtonsAdapter(
 
                     if(ctg == "병원" && datas.none { it == subject }) {
                         datas.add(0,subject)
-//                        notifyItemInserted(0)
 
                     }else if(ctg == "약국" && datas.any { it == subject }) {
                         datas.remove(subject)
-//                        notifyItemRemoved(0)
                         notifyDataSetChanged()
 
                     }
@@ -137,6 +137,7 @@ class FilterButtonsAdapter(
                 )
                 ViewHolder3(view)
             }
+            //multi_type2
             else -> {
                 view = LayoutInflater.from(parent.context).inflate(
                     R.layout.recyclerview_filter_item2,

@@ -8,8 +8,9 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="400dp"
+    android:background="@drawable/rounded_dialog"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="56dp"
     app:layout_behavior="@string/bottom_sheet_behavior"
     >
 
@@ -32,10 +33,12 @@
             android:orientation="vertical"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/hospitalRV"
+                android:id="@+id/bottomSheetRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
                 tools:listitem="@layout/recyclerview_hospitallist_item" >
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>

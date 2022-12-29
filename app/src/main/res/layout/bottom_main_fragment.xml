@@ -1,149 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main_constraint"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     >
-    <fragment
-        android:id="@+id/map"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment"
-        />
-    <!--현위치 버튼 커스텀-->
-    <!--        <com.naver.maps.map.widget.LocationButtonView
-                android:id="@+id/location_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:layout_gravity="left|center"
-                tools:ignore="MissingConstraints" />-->
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/EditTextWrapper"
-        android:theme="@style/EditTextWrapper"
-        app:startIconDrawable="@drawable/ic_search"
         >
-        <EditText
-            android:id="@+id/search_bar"
+        <fragment
+            android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginHorizontal="15dp"
-            android:background="@drawable/search_style"
-            android:gravity="start|center"
-            android:hint="@string/search_hint"
-            android:textAlignment="viewStart"
-            android:textSize="14sp"
-            android:inputType="none"
-            android:focusable="false"
+            android:layout_height="match_parent"
+            android:name="com.naver.maps.map.MapFragment"
+            />
+        <!--현위치 버튼 커스텀-->
+        <!--        <com.naver.maps.map.widget.LocationButtonView
+                    android:id="@+id/location_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:layout_gravity="left|center"
+                    tools:ignore="MissingConstraints" />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/filterLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar_layout"
-        >
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filterAT2_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:visibility="gone"
+            style="@style/EditTextWrapper"
+            android:theme="@style/EditTextWrapper"
+            app:startIconDrawable="@drawable/ic_search"
             >
-            <AutoCompleteTextView
-                android:id="@+id/filterAT2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/search_style"
+                android:gravity="start|center"
+                android:hint="@string/search_hint"
+                android:textAlignment="viewStart"
+                android:textSize="14sp"
                 android:inputType="none"
-                android:text="필터명"
-                android:textSize="12sp"
-                android:dropDownHeight="wrap_content"
-                android:dropDownWidth="wrap_content"
-                tools:ignore="LabelFor" />
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
         </com.google.android.material.textfield.TextInputLayout>
- <!--       <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            >
-            <AutoCompleteTextView
-                android:id="@+id/filterAT1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:text="병원"
-                android:textSize="12sp"
-                android:dropDownHeight="wrap_content"
-                android:dropDownWidth="wrap_content"
-                tools:ignore="LabelFor" />
-        </com.google.android.material.textfield.TextInputLayout>-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/filterRV"
+
+        <LinearLayout
+            android:id="@+id/filterLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="5dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            tools:listitem="@layout/recyclerview_filter_item2"
-            />
-    </LinearLayout>
-
-    <!--        <FrameLayout
-                android:id="@+id/bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:background="@drawable/rounded_dialog"
-                app:behavior_hideable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <ImageView
-                    android:layout_width="70dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar_layout"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterAT2_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:visibility="gone"
+                >
+                <AutoCompleteTextView
+                    android:id="@+id/filterAT2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|top"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_baseline_remove_24" />-->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="지도보기"
-        android:drawableLeft="@drawable/ic_marker_black"
-        android:text="@string/fab_map"
-        android:textSize="12sp"
-        android:visibility="visible"
-        app:borderWidth="0dp"
-        app:fabSize="normal"
-        app:layout_anchor="@id/main_constraint"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        />
+                    android:inputType="none"
+                    android:text="필터명"
+                    android:textSize="12sp"
+                    android:dropDownHeight="wrap_content"
+                    android:dropDownWidth="wrap_content"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--       <com.google.android.material.textfield.TextInputLayout
+                       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:paddingLeft="10dp"
+                       >
+                       <AutoCompleteTextView
+                           android:id="@+id/filterAT1"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:inputType="none"
+                           android:text="병원"
+                           android:textSize="12sp"
+                           android:dropDownHeight="wrap_content"
+                           android:dropDownWidth="wrap_content"
+                           tools:ignore="LabelFor" />
+                   </com.google.android.material.textfield.TextInputLayout>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/filterRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                tools:listitem="@layout/recyclerview_filter_item2"
+                />
+        </LinearLayout>
+
+        <!--        <FrameLayout
+                    android:id="@+id/bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:background="@drawable/rounded_dialog"
+                    app:behavior_hideable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_baseline_remove_24" />-->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="지도보기"
+            android:drawableLeft="@drawable/ic_marker_black"
+            android:text="@string/fab_map"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_constraint"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_list"
         android:layout_width="wrap_content"
@@ -161,8 +167,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/testtttt"
+        layout="@layout/bottom_sheet_layout"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
