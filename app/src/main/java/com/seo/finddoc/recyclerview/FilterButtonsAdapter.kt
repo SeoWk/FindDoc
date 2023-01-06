@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.seo.finddoc.R
 import com.seo.finddoc.data.FilterData
 
-/**
- * 스피너 선택값 반영 안되는 문제
- */
 const val multi_type1 = 1
 const val multi_type2 = 2
 const val multi_type3 = 3
@@ -42,6 +39,9 @@ class FilterButtonsAdapter(
 
     inner class ViewHolder1(view: View): RecyclerView.ViewHolder(view) {
         private val spinner: AutoCompleteTextView = view.findViewById(R.id.filterAT)
+        /**
+        스피너 디자인 수정하기
+         */
         private val filterCtgAdapter = ArrayAdapter.createFromResource(
             context,
             R.array.filter_category,
@@ -51,19 +51,28 @@ class FilterButtonsAdapter(
         fun bind(item: FilterData) {
             with(spinner) {
                 setAdapter(filterCtgAdapter)
+                /**
+                 * 스피너 선택값 반영 안되는 문제, DiffiUtil 적용?
+                 */
+//                setText(adapter.getItem(adapterPosition).toString(),false)
+
                 setOnItemClickListener { adapterView, _, position, _ ->
                     val ctg = adapterView.getItemAtPosition(position) as String
                     val subject = FilterData("전체",3)
-
                     if(ctg == "병원" && datas.none { it == subject }) {
                         datas.add(0,subject)
 
-                    }else if(ctg == "약국" && datas.any { it == subject }) {
-                        datas.remove(subject)
+//                        notifyItemInserted(0)
                         notifyDataSetChanged()
 
+                    }else if(ctg == "약국" && datas.any { it == subject }) {
+                        datas.remove(subject)
+//                        notifyItemRemoved(0)
+                        notifyDataSetChanged()
                     }
+
                 }
+
                 setOnClickListener{
                     val position = adapterPosition
                     //삭제된 경우를 제외
@@ -104,6 +113,7 @@ class FilterButtonsAdapter(
                     val ctg = adapterView.getItemAtPosition(position) as String
 //                    toastMessage(ctg)
                 }
+
                 setOnClickListener{
                     val position = adapterPosition
                     //삭제된 경우를 제외
@@ -113,6 +123,7 @@ class FilterButtonsAdapter(
                         }
                     }
                 }
+
             }
         }
 
@@ -175,3 +186,5 @@ class FilterButtonsAdapter(
     }*/
 
 }
+
+

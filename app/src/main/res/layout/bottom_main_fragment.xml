@@ -138,6 +138,7 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="지도보기"
             android:drawableLeft="@drawable/ic_marker_black"
+            app:backgroundTint="@android:color/white"
             android:text="@string/fab_map"
             android:textSize="12sp"
             android:visibility="visible"
@@ -157,6 +158,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:contentDescription="목록보기"
+        app:backgroundTint="@android:color/white"
         android:visibility="gone"
         android:text="@string/fab_list"
         android:textSize="12sp"
@@ -169,7 +171,6 @@
         app:borderWidth="0dp"
         />
     <include
-        android:id="@+id/testtttt"
         layout="@layout/bottom_sheet_layout"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

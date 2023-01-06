@@ -24,6 +24,7 @@
                 app:endIconMode="clear_text"
                 android:gravity="center"
                 style="@style/EditTextWrapper"
+                android:theme="@style/EditTextWrapper"
                 >
                 <EditText
                     android:id="@+id/search_edit_text"
@@ -38,11 +39,67 @@
                     android:inputType="text"
                     android:textCursorDrawable="@drawable/custom_cursor"
                     style="@style/CustomEditText"
+                    android:theme="@style/CustomEditText"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        android:id="@+id/recommendSearchesTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="추천 검색어"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="0dp"
+        >
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            style="@style/Widget.MaterialComponents.ChipGroup"
+            >
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소아과"
+                />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이비인후과"
+                />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내과"
+                />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신경외과"
+                />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성형외과"
+                />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
     <TextView
         android:id="@+id/recentSearchesTV"
         android:layout_width="match_parent"

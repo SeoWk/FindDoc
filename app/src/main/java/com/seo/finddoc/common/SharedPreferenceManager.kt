@@ -1,3 +1,4 @@
+/*
 package com.seo.finddoc.common
 
 import android.content.ContentValues.TAG
@@ -48,6 +49,7 @@ object SharedPreferenceManager {
         }
     }
 
+*/
 /*    // 검색 목록 지우기
     fun clearSearchHistoryList(){
         Log.d(TAG, "SharedPreferenceManager - clearSearchHistoryList() called")
@@ -57,5 +59,6 @@ object SharedPreferenceManager {
         editor.clear()
 
         editor.apply()
-    }*/
-}
+    }*//*
+
+}*/

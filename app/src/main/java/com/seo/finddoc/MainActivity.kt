@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             with(supportFragmentManager.beginTransaction()) {
                 add(R.id.container, BottomMainFragment.newInstance("홈") )
-                commit()
+                commitNow()
             }
         }
 

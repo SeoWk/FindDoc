@@ -1,26 +1,27 @@
-package com.seo.finddoc.viewmodel
+package com.seo.finddoc.room
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.seo.finddoc.data.SearchedData
 import java.text.SimpleDateFormat
 import java.util.*
 
 class SearchViewModel : ViewModel(){
-    private val data = arrayListOf<SearchedData>()
-    val liveData = MutableLiveData<List<SearchedData>>()
+    private val data = arrayListOf<SearchWord>()
+    val liveData = MutableLiveData<List<SearchWord>>()
 
     fun addData(getKeyword: String){
         val stringDate = SimpleDateFormat("MM/dd", Locale.getDefault()).format(System.currentTimeMillis())
 
-        data.add(SearchedData(
+        data.add(
+            SearchWord(
             getKeyword ,
             stringDate
-        ))
+        )
+        )
         liveData.value = data
     }
 
-    fun removeData(item: SearchedData){
+    fun removeData(item: SearchWord){
         data.remove(item)
         liveData.value = data
     }

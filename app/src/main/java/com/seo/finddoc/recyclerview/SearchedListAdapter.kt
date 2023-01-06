@@ -3,13 +3,13 @@ package com.seo.finddoc.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.seo.finddoc.data.SearchedData
 import com.seo.finddoc.databinding.RecyclerviewSearchedItemBinding
+import com.seo.finddoc.room.SearchWord
 
 class SearchedListAdapter(
-    private var list :List<SearchedData>,
+    private var list :List<SearchWord>,
     //아이템 전달하기 위한
-    val onClickDeleteIcon: (data: SearchedData) -> Unit
+    val onClickDeleteIcon: (data: SearchWord) -> Unit
 ): RecyclerView.Adapter<SearchedListAdapter.SearchedViewHolder>() {
 
     inner class SearchedViewHolder(val binding: RecyclerviewSearchedItemBinding):
@@ -28,7 +28,7 @@ class SearchedListAdapter(
     override fun onBindViewHolder(holder: SearchedViewHolder, position: Int) {
         val searchedItem = list[position]
         with(holder.binding) {
-            searchedKewordTV.text = searchedItem.keyword
+            searchedKewordTV.text = searchedItem.word
             searchedDateTV.text = searchedItem.date
 
             root.setOnClickListener{
@@ -64,7 +64,7 @@ class SearchedListAdapter(
     override fun getItemCount() = list.size
 
 
-    fun setData(data: List<SearchedData>) {
+    fun setData(data: List<SearchWord>) {
         list = data
         notifyDataSetChanged()
     }

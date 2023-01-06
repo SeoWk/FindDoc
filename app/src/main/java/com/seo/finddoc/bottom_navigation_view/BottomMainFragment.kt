@@ -102,11 +102,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
          * persistent로 전환, 버튼 연결
          */
         //bottomSheet
-//        val listBottomSheet = BottomSheetListFragment.newInstance("약국")
-//        listBottomSheet.show(childFragmentManager,BottomSheetListFragment.TAG)
-//
-//        listBottomSheet.setParentFab(binding.fabList)
-//        listBottomSheet.setParentFab(binding.fabMap)
 
         bottomSheet = binding.root.findViewById(R.id.bottomSheetLayout)
         val bottomSheetRV = bottomSheet.findViewById<RecyclerView>(R.id.bottomSheetRV)
@@ -120,7 +115,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
 
         val bsBehavior = BottomSheetBehavior.from(bottomSheet)
         bsBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-
         bsBehavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 with(binding){
@@ -129,7 +123,7 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
 
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
-                            bsBehavior.peekHeight = 400
+                            bsBehavior.peekHeight = 250
                         }
                         BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                         }
@@ -153,6 +147,9 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         bsBehavior.saveFlags
 
 
+        /**
+         * include Layout에 id 적용 후 anchor 등록
+         */
         with(binding) {
             //목록보기
             fabList.setOnClickListener {

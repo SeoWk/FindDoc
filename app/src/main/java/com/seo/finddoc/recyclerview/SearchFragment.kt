@@ -12,7 +12,7 @@ import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
 import com.seo.finddoc.bottom_navigation_view.BottomMainFragment
 import com.seo.finddoc.databinding.SearchFragmentBinding
-import com.seo.finddoc.viewmodel.SearchViewModel
+import com.seo.finddoc.room.SearchViewModel
 
 
 class SearchFragment : Fragment() {
@@ -42,6 +42,32 @@ class SearchFragment : Fragment() {
         /**
          * sharedPreference 나 ViewModel로 앱 꺼질 때까지 데이터 유지할 수 있게
          */
+
+        /**
+            칩스 이벤트트
+        */
+
+/*        chip.setOnClickListener {
+            // Responds to chip click
+        }
+
+        chip.setOnCloseIconClickListener {
+            // Responds to chip's close icon click if one is present
+        }
+
+        chip.setOnCheckedChangeListener { chip, isChecked ->
+            // Responds to chip checked/unchecked
+        }
+
+        val checkedChipId = chipGroup.checkedChipId // Returns View.NO_ID if singleSelection = false
+val checkedChipIds = chipGroup.checkedChipIds // Returns a list of the selected chips' IDs, if any
+
+chipGroup.setOnCheckedChangeListener { group, checkedId ->
+    // Responds to child chip checked/unchecked
+}
+
+        */
+
         /*    //저장된 검색기록 가져오기
             searchHistoryList = SharedPreferenceManager.getSearchHistoryList()
             searchHistoryList.forEach {
