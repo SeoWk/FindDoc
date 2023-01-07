@@ -13,5 +13,7 @@ class SearchRepository(application: Application) {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     var allProducts: LiveData<List<SearchWord>>? = null
 
+    init {
 
+    }
 }
