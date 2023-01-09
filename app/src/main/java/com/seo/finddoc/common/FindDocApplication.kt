@@ -5,12 +5,18 @@ import android.app.Activity
 import android.app.Application
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import com.seo.finddoc.room.SearchRepository
+import com.seo.finddoc.room.SearchRoomDatabase
 
 /**
  *  앱 런처아이콘을 터치하면 처음 실행되는 코드
  *  App Scope 모든 코틀린 클래스/파일에서 호출할 수 있는 코드
  */
 class FindDocApplication : Application(){
+    //    val applicationScope = CoroutineScope(SupervisorJob())
+    private val searchDatabase by lazy { SearchRoomDatabase.getDatabase(this) }
+    val searchRepository by lazy { SearchRepository(searchDatabase.searchDao()) }
+
     override fun onCreate() {
         super.onCreate()
         appInstance = this

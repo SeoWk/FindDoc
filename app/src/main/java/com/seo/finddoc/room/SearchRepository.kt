@@ -1,19 +1,23 @@
 package com.seo.finddoc.room
 
-import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.annotation.WorkerThread
+import kotlinx.coroutines.flow.Flow
 
-class SearchRepository(application: Application) {
+class SearchRepository(private val searchDao: SearchDao) {
+    val allSearchWords: Flow<List<SearchWord>> = searchDao.getAllSearchWord()
 
-    val searchResults = MutableLiveData<List<SearchWord>>()
-    private lateinit var SearchDao: SearchDao
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-    var allProducts: LiveData<List<SearchWord>>? = null
-
-    init {
-
+    @WorkerThread
+    suspend fun insertSearchWord(searchWord: SearchWord) {
+        searchDao.insertSearchWord(searchWord)
     }
+    @WorkerThread
+    suspend fun deleteSearchWord(searchWord: SearchWord) {
+        searchDao.deleteSearchWord(searchWord)
+    }
+    @WorkerThread
+    suspend fun deleteAll() {
+        searchDao.deleteAll()
+    }
+
 }
+

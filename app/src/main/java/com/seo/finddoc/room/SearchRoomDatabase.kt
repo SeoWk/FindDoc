@@ -11,7 +11,10 @@ abstract class SearchRoomDatabase : RoomDatabase() {
 
     companion object {
         private lateinit var INSTANCE: SearchRoomDatabase
-        internal fun getDatabase(context: Context): SearchRoomDatabase {
+        internal fun getDatabase(
+            context: Context,
+//            scope: CoroutineScope
+        ): SearchRoomDatabase {
             if (!this::INSTANCE.isInitialized) {
                 synchronized(SearchRoomDatabase::class.java) {
                     INSTANCE =
@@ -19,10 +22,37 @@ abstract class SearchRoomDatabase : RoomDatabase() {
                             context.applicationContext,
                             SearchRoomDatabase::class.java,
                             "search_database"
-                        ).build()
+                        )
+ /*                           .addCallback(object : Callback () {
+                                override fun onCreate (db: SupportSQLiteDatabase) {
+                                    super. onCreate(db)
+                                }
+                            })*/
+                            .build()
                 }
             }
             return INSTANCE
         }
     }
+
+    /**
+     * 삭제예정 -  CoroutineScope를 매개변수로 갖는 Callback
+     */
+/*    private class SearchDatabaseCallback(
+        private val scope: CoroutineScope
+    ) : Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            INSTANCE?.let { database ->
+                scope.launch {
+                    var searchDao = database.searchDao()
+
+                    // deleteAll
+                    searchDao.deleteAll()
+
+                    // insert
+                }
+            }
+        }
+    }*/
 }

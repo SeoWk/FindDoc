@@ -11,13 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
 import com.seo.finddoc.bottom_navigation_view.BottomMainFragment
+import com.seo.finddoc.common.FindDocApplication
 import com.seo.finddoc.databinding.SearchFragmentBinding
 import com.seo.finddoc.room.SearchViewModel
+import com.seo.finddoc.room.SearchViewModelFactory
+import com.seo.finddoc.room.SearchWord
 
 
 class SearchFragment : Fragment() {
     private lateinit var binding: SearchFragmentBinding
-    private val viewModel : SearchViewModel by viewModels()
+    private val searchViewModel : SearchViewModel by viewModels {
+        SearchViewModelFactory((activity?.application as FindDocApplication).searchRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +44,9 @@ class SearchFragment : Fragment() {
          * 옵션 메뉴 커스텀하기 - 크기, 색상
          */
         setHasOptionsMenu(true)
-        /**
-         * sharedPreference 나 ViewModel로 앱 꺼질 때까지 데이터 유지할 수 있게
-         */
 
         /**
-            칩스 이벤트트
+            칩스 이벤트
         */
 
 /*        chip.setOnClickListener {
@@ -105,19 +107,22 @@ chipGroup.setOnCheckedChangeListener { group, checkedId ->
             }
         }*/
         //최근 검색어 리사이클러뷰
-        with(binding.recentSearchesRV) {
+        val searchAdapter = SearchAdapter()
 
+        with(binding.recentSearchesRV) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-            adapter = SearchedListAdapter(
-                emptyList(),
-                //개별 항목 삭제 기능
-                onClickDeleteIcon = {
-                    viewModel.removeData(it)
-                }
-            )
+            adapter = searchAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
+        searchViewModel.allWords.observe(
+            viewLifecycleOwner,
+            Observer { words ->
+                words?.let {   searchAdapter.submitList(it) }
+            }
+        )
+
+        //EditText 엔터 키 이벤트
         with(binding.searchEditText) {
             setOnEditorActionListener { _, actionId, _ ->
                 var handled = false
@@ -132,16 +137,6 @@ chipGroup.setOnCheckedChangeListener { group, checkedId ->
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.liveData.observe(
-            viewLifecycleOwner,
-            Observer {
-                (binding.recentSearchesRV.adapter as SearchedListAdapter).setData(it)
-            }
-        )
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search_optionmenu, menu)
@@ -168,11 +163,24 @@ chipGroup.setOnCheckedChangeListener { group, checkedId ->
      * 검색된 결과로 이동하는 것까지 구현
      * 키보드 입력 바로 뜰 수 있게
      */
+
     private fun searchComplete(){
         var getKeyword = binding.searchEditText.text.toString()
-        viewModel.addData(getKeyword.toString())
-        binding.searchEditText.text = null
+        if ( getKeyword  != ""){
+            val searchWord = SearchWord(getKeyword)
+            searchViewModel.insertSearchWord(searchWord)
+            binding.searchEditText.text = null
+        }
     }
+
+    private fun delete(){
+//            searchViewModel.deleteSearchWord(searchWord)
+    }
+
+    private fun deleteAllItems(){
+            searchViewModel.deleteAll()
+    }
+
 
     companion object {
         fun newInstance(subject: String): SearchFragment {
