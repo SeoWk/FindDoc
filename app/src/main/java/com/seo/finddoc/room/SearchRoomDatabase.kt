@@ -36,7 +36,7 @@ abstract class SearchRoomDatabase : RoomDatabase() {
     }
 
     /**
-     * 삭제예정 -  CoroutineScope를 매개변수로 갖는 Callback
+     * 삭제예정
      */
 /*    private class SearchDatabaseCallback(
         private val scope: CoroutineScope

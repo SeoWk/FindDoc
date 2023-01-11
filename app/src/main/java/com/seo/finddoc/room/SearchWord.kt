@@ -36,6 +36,11 @@ class SearchWord{
     constructor(word: String) {
         this.word = word
     }
+
+    @Ignore
+    constructor(id: Int) {
+        this.id = id
+    }
 }
 
 

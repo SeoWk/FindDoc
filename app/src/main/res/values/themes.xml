@@ -76,10 +76,11 @@
         <item name="android:background">@drawable/rounded_dialog</item>
     </style>
     <!--Chip Custom-->
-    <style name="Widget.FindDoc.Chip" parent="Widget.MaterialComponents.Chip.Action">
+    <style name="Widget.FindDoc.Chip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
         <item name="android:textSize">12sp</item>
-        <item name="chipBackgroundColor">@color/light_gray</item>
+        <item name="chipBackgroundColor">@color/background_color_chip_state_list</item>
+        <item name="android:textColor">@color/text_color_chip_state_list</item>
     </style>
 
 

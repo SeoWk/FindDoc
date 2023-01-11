@@ -268,8 +268,7 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             add(FilterData( "기타",2))
         }
 
-        multiadapter.setOnItemClickListener(
-            object : FilterButtonsAdapter.OnItemClickListener{
+        multiadapter.setOnItemClickListener(  object : FilterButtonsAdapter.OnItemClickListener{
                 override fun onItemClick(position: Int) {
                     /**
                      * 작동불가
