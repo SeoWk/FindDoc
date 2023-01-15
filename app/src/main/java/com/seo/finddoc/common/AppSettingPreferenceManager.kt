@@ -2,7 +2,7 @@ package com.seo.finddoc.common
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 
 class AppSettingPreferenceManager {
     companion object{
@@ -10,7 +10,7 @@ class AppSettingPreferenceManager {
         private lateinit var sp: SharedPreferences
         private lateinit var spEditor: SharedPreferences.Editor
 
-        fun getInstance(context: Context): AppSettingPreferenceManager {
+        fun getSettingManager(context: Context): AppSettingPreferenceManager {
             if (this::manager.isInitialized) {
                 return manager
             } else {

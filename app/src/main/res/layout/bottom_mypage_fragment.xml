@@ -38,6 +38,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/kakao_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/kakao_login_large_wide"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/info_button"
                 android:layout_width="match_parent"
@@ -47,7 +55,7 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000"
+                android:background="@android:color/transparent"
                 />
             <TextView
                 android:id="@+id/hpTV"
@@ -82,7 +90,8 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
+                android:background="@android:color/transparent"
+                />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/notice_button"
                 android:layout_width="match_parent"
@@ -92,7 +101,8 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
+                android:background="@android:color/transparent"
+                />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/inquire_button"
                 android:layout_width="match_parent"
@@ -102,7 +112,8 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
+                android:background="@android:color/transparent"
+                />
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -126,7 +137,8 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
+                android:background="@android:color/transparent"
+                />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/invite_button"
                 android:layout_width="match_parent"
@@ -136,8 +148,8 @@
                 android:textStyle="bold"
                 android:gravity="left|center"
                 android:drawableEnd="@drawable/ic_greater"
-                android:background="#00000000" />
-
+                android:background="@android:color/transparent"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +163,8 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:gravity="left|center"
-                    android:background="#00000000" />
+                    android:background="@android:color/transparent"
+                    />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

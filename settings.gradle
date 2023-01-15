@@ -12,9 +12,8 @@ dependencyResolutionManagement {
         mavenCentral()
         //add
         jcenter()
-        maven {
-            url 'https://naver.jfrog.io/artifactory/maven/'
-        }
+        maven { url 'https://naver.jfrog.io/artifactory/maven/' }
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
 rootProject.name = "FindDoc"

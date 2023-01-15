@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import com.kakao.sdk.common.KakaoSdk
+import com.seo.finddoc.BuildConfig
 import com.seo.finddoc.room.SearchRepository
 import com.seo.finddoc.room.SearchRoomDatabase
 
@@ -21,6 +23,9 @@ class FindDocApplication : Application(){
         super.onCreate()
         appInstance = this
         settingScreenPortrait()
+
+        // Kakao SDK 초기화
+        KakaoSdk.init(this, "{${BuildConfig.KAKAO_API_KEY}")
     }
     companion object{
         private lateinit var appInstance: FindDocApplication

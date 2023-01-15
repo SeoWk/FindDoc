@@ -5,9 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
+import com.seo.finddoc.common.PreferenceSettingsFragment
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.databinding.BottomMypageFragmentBinding
-import com.seo.finddoc.fragment.PreferenceSettingsFragment
 
 class BottomMypageFragment  : Fragment(){
     private var _binding: BottomMypageFragmentBinding? = null

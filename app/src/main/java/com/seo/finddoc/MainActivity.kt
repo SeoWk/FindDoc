@@ -17,7 +17,6 @@ import com.seo.finddoc.common.AppSettingPreferenceManager
 import com.seo.finddoc.common.toastMessage
 
 
-
 class MainActivity : AppCompatActivity() {
     companion object{
         const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
@@ -26,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        val keyHash = Utility.getKeyHash(this)
+//        Log.e("Hash", keyHash)
 
         //BottomNavigationView
         if (savedInstanceState == null) {
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onResume() {
         super.onResume()
-        if (!AppSettingPreferenceManager.getInstance(this).isLocation) {
+        if (!AppSettingPreferenceManager.getSettingManager(this).isLocation) {
             permissionCheck()
         }
 
@@ -124,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         if (!permissionCheck.currentAppPermissionsResult(requestCode,grantResults)) {
             permissionCheck.currentAppRequestPermissions()
         }else{
-            AppSettingPreferenceManager.getInstance(this).isLocation = true
+            AppSettingPreferenceManager.getSettingManager(this).isLocation = true
         }
     }
 }
