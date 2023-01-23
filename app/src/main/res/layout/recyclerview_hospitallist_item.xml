@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="병원명"
         android:layout_alignParentStart="true"
+        style="@style/RVTextView"
         />
     <TextView
         android:id="@+id/departmentTV"
@@ -20,6 +21,7 @@
         android:text="진료과목"
         android:layout_toRightOf="@id/hospitalTV"
         android:layout_marginLeft="5dp"
+        style="@style/RVTextView"
         />
 
     <TextView
@@ -29,6 +31,8 @@
         android:text="진료여부"
         android:layout_below="@+id/hospitalTV"
         android:layout_marginTop="10dp"
+        style="@style/RVTextView"
+
         />
 
     <TextView
@@ -39,7 +43,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/treatmentTV"
-        android:text="진료시간" />
+        android:text="진료시간"
+        style="@style/RVTextView"
+        />
 
     <TextView
         android:id="@+id/distanceTV"
@@ -50,6 +56,7 @@
         android:gravity="center"
         android:layout_below="@id/hoursTV"
         android:layout_marginTop="10dp"
+        style="@style/RVTextView"
         />
     <TextView
         android:id="@+id/dongTV"
@@ -60,6 +67,7 @@
         android:layout_below="@id/hoursTV"
         android:layout_alignBaseline="@id/distanceTV"
         android:layout_marginLeft="5dp"
+        style="@style/RVTextView"
         />
 
     <LinearLayout
@@ -69,41 +77,52 @@
         android:orientation="horizontal"
         android:layout_below="@id/dongTV"
         android:layout_marginTop="10dp"
+        style="@style/RVTextView"
         >
         <TextView
             android:id="@+id/hopitalInfoTV1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목1" />
+            android:text="항목1"
+            style="@style/RVTextView"
+            />
 
         <TextView
             android:id="@+id/hopitalInfoTV2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목2" />
+            android:text="항목2"
+            style="@style/RVTextView"
+            />
 
         <TextView
             android:id="@+id/hopitalInfoTV3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목3" />
+            android:text="항목3"
+            style="@style/RVTextView"
+            />
 
         <TextView
             android:id="@+id/hopitalInfoTV4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목4" />
+            android:text="항목4"
+            style="@style/RVTextView"
+            />
 
         <TextView
             android:id="@+id/hopitalInfoTV5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목5" />
+            android:text="항목5"
+            style="@style/RVTextView"
+            />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/features_layout2"
@@ -119,34 +138,40 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="항목"
+            style="@style/RVTextView"
             />
-
         <TextView
             android:id="@+id/hopitalInfoTV7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목" />
+            android:text="항목"
+            style="@style/RVTextView"
+            />
 
         <TextView
             android:id="@+id/hopitalInfoTV8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목" />
-
+            android:text="항목"
+            style="@style/RVTextView"
+            />
         <TextView
             android:id="@+id/hopitalInfoTV9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목" />
-
+            android:text="항목"
+            style="@style/RVTextView"
+            />
         <TextView
             android:id="@+id/hopitalInfoTV10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="항목" />
+            android:text="항목"
+            style="@style/RVTextView"
+            />
     </LinearLayout>
 </RelativeLayout>

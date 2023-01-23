@@ -28,21 +28,19 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
-import com.seo.finddoc.BuildConfig.DATA_API_KEY
 import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
 import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
-import com.seo.finddoc.common.TYPE_JSON
 import com.seo.finddoc.common.toastMessage
 import com.seo.finddoc.data.FilterData
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
-import com.seo.finddoc.json_data.HospitalInfoBody
-import com.seo.finddoc.network.RetrofitManager
+import com.seo.finddoc.json_data.HospitalRoot
 import com.seo.finddoc.recyclerview.FilterButtonsAdapter
 import com.seo.finddoc.recyclerview.FilterItemDecoration
 import com.seo.finddoc.recyclerview.PharmacyListAdapter
 import com.seo.finddoc.recyclerview.SearchFragment
+import com.seo.finddoc.rest_setting.FindDocRetrofitGenerator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -102,7 +100,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
          * persistent로 전환, 버튼 연결
          */
         //bottomSheet
-
         bottomSheet = binding.root.findViewById(R.id.bottomSheetLayout)
         val bottomSheetRV = bottomSheet.findViewById<RecyclerView>(R.id.bottomSheetRV)
         with(bottomSheetRV) {
@@ -120,7 +117,7 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
                 with(binding){
                     when (newState) {
                         BottomSheetBehavior.STATE_HIDDEN -> {
-
+                            toggleFab()
                         }
                         BottomSheetBehavior.STATE_EXPANDED -> {
                             bsBehavior.peekHeight = 250
@@ -513,28 +510,30 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     }
 
     /**
-     * 작동불가
+     * 공공데이터 인증키 사용 여부 확인하기 javax.net.ssl.SSLHandshakeException
      */
     private fun selectHospitalCode() {
-        val call : Call<HospitalInfoBody>
-                = RetrofitManager.getRetrofitHospitalRestService().getHospitalCode(
-            DATA_API_KEY,
-            TYPE_JSON,
-            1
+        val call : Call<HospitalRoot>
+                = FindDocRetrofitGenerator.generateHospitalInstance().findHospitalInfo(
+            com.seo.finddoc.rest_setting.DATA_API_KEY,
+            1,
+            10,
+            "json"
         )
 
-        call.enqueue(object : Callback<HospitalInfoBody> {
-            override fun onResponse(call: Call<HospitalInfoBody>, response: Response<HospitalInfoBody>){
+        call.enqueue(object : Callback<HospitalRoot> {
+            override fun onResponse(call: Call<HospitalRoot>,
+                                    response: Response<HospitalRoot>){
                 if (response.isSuccessful) {
-                    val hospitalInfoBody = response.body() as HospitalInfoBody
+                    val hospitalRoot = response.body() as HospitalRoot
+                    Log.e("RESULT",hospitalRoot.response.body.items.item.toString())
                     toastMessage("성공")
                 }
             }
-            override fun onFailure(call: Call<HospitalInfoBody>, t: Throwable) {
+            override fun onFailure(call: Call<HospitalRoot>, t: Throwable) {
 //                call.cancel()
+                Log.e("RESULT", t.toString())
                 toastMessage("""실패 - ${t.printStackTrace()}""")
-
-
             }
         })
     }
@@ -575,9 +574,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 
     companion object{
         //        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000

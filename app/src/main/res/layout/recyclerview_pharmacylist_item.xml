@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="약국명"
         android:layout_alignParentStart="true"
+        style="@style/RVTextView"
         />
     <TextView
         android:id="@+id/departmentTV"
@@ -20,6 +21,7 @@
         android:text="약국"
         android:layout_toRightOf="@id/pharmacyTV"
         android:layout_marginLeft="5dp"
+        style="@style/RVTextView"
         />
 
     <TextView
@@ -29,6 +31,7 @@
         android:text="영업여부"
         android:layout_below="@+id/pharmacyTV"
         android:layout_marginTop="10dp"
+        style="@style/RVTextView"
         />
 
     <TextView
@@ -39,7 +42,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/businessTV"
-        android:text="영업시간" />
+        android:text="영업시간"
+        style="@style/RVTextView"
+        />
 
     <TextView
         android:id="@+id/distanceTV"
@@ -50,6 +55,7 @@
         android:gravity="center"
         android:layout_below="@id/hoursTV"
         android:layout_marginTop="10dp"
+        style="@style/RVTextView"
         />
     <TextView
         android:id="@+id/dongTV"
@@ -60,6 +66,7 @@
         android:layout_below="@id/hoursTV"
         android:layout_alignBaseline="@id/distanceTV"
         android:layout_marginLeft="5dp"
+        style="@style/RVTextView"
         />
   <!--  <LinearLayout
         android:id="@+id/features_layout"

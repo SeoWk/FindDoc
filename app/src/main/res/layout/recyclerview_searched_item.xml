@@ -15,9 +15,9 @@
             android:layout_marginHorizontal="10dp"
             android:background="@android:color/transparent"
             android:text="최근검색어"
+            android:textSize="12sp"
             android:gravity="start|center"
             android:maxLines="1"
-            style="@style/Widget.AppCompat.TextView"
             />
         <TextView
             android:id="@+id/searchedDateTV"
@@ -26,9 +26,9 @@
             android:layout_marginHorizontal="10dp"
             android:background="@android:color/transparent"
             android:text="검색날짜"
+            android:textSize="12sp"
             android:gravity="center"
             android:maxLines="1"
-            style="@style/Widget.AppCompat.TextView"
             />
         <ImageButton
             android:id="@+id/deleteIB"

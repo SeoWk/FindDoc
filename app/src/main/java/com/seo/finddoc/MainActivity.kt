@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,8 +17,10 @@ import com.seo.finddoc.common.AppPermissionCheck
 import com.seo.finddoc.common.AppSettingPreferenceManager
 import com.seo.finddoc.common.toastMessage
 
-
 class MainActivity : AppCompatActivity() {
+    private var backPressedTime: Long = 0
+    private val delayTime = 1500L
+
     companion object{
         const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
         const val LBS_CHECK_CODE = 100
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         //BottomNavigationView
         if (savedInstanceState == null) {
             with(supportFragmentManager.beginTransaction()) {
-                add(R.id.container, BottomMainFragment.newInstance("홈") )
+                add(R.id.container, BottomMainFragment.newInstance("홈"))
                 commitNow()
             }
         }
@@ -58,15 +61,26 @@ class MainActivity : AppCompatActivity() {
         //네트워크 가능 여부
         if (isNetworkAvailable()) {
 
-
-        }else{
+        } else {
             Log.e(LBS_CHECK_TAG, "네트워크에 연결되지 않음")
             toastMessage("네트워크에 연결되지 않아 사용종료됩니다")
             finish()
         }
 
-    }
+        addOnBackPressedDispatcher {
+            val currentTime = System.currentTimeMillis()
+            val intervalTime = currentTime - backPressedTime
 
+            if (intervalTime in 0..delayTime) {
+                finish()
+            } else {
+                backPressedTime = currentTime
+                toastMessage("한번 더 뒤로가기하시면 종료됩니다")
+            }
+
+        }
+
+    }
     //네트워크 접속 확인
     private fun isNetworkAvailable(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -129,4 +143,15 @@ class MainActivity : AppCompatActivity() {
             AppSettingPreferenceManager.getSettingManager(this).isLocation = true
         }
     }
+
+    private fun AppCompatActivity.addOnBackPressedDispatcher(backPressed: () -> Unit) {
+        onBackPressedDispatcher.addCallback(
+            this@MainActivity, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    backPressed.invoke()
+                }
+            }
+        )
+    }
+
 }
