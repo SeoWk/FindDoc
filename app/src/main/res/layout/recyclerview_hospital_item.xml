@@ -32,7 +32,6 @@
         android:layout_below="@+id/hospitalTV"
         android:layout_marginTop="10dp"
         style="@style/RVTextView"
-
         />
 
     <TextView
@@ -69,13 +68,22 @@
         android:layout_marginLeft="5dp"
         style="@style/RVTextView"
         />
+    <TextView
+        android:id="@+id/telTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전화번호"
+        android:layout_below="@id/dongTV"
+        android:layout_marginTop="10dp"
+        style="@style/RVTextView"
+        />
 
     <LinearLayout
         android:id="@+id/features_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/dongTV"
+        android:layout_below="@id/telTV"
         android:layout_marginTop="10dp"
         style="@style/RVTextView"
         >

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FindDoc</string>
+    <string name="app_label">찾았닥</string>
     <string name="fab_list">목록보기</string>
     <string name="fab_map">지도보기</string>
     <string name="search_hint">진료과목 또는 병원명/약국명</string>

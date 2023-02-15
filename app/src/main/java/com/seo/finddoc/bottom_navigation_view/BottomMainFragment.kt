@@ -8,17 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
@@ -32,22 +32,24 @@ import com.seo.finddoc.MainActivity
 import com.seo.finddoc.R
 import com.seo.finddoc.common.LOCATION_PERMISSION_REQUEST_CODE
 import com.seo.finddoc.common.toastMessage
-import com.seo.finddoc.data.FilterData
-import com.seo.finddoc.data.PharmacyListItem
+import com.seo.finddoc.data.MedicalDTO
 import com.seo.finddoc.databinding.BottomMainFragmentBinding
-import com.seo.finddoc.json_data.HospitalRoot
-import com.seo.finddoc.recyclerview.FilterButtonsAdapter
-import com.seo.finddoc.recyclerview.FilterItemDecoration
-import com.seo.finddoc.recyclerview.PharmacyListAdapter
+import com.seo.finddoc.json_entity.HospitalEntityRoot
+import com.seo.finddoc.json_entity.HospitalItem
+import com.seo.finddoc.recyclerview.HospitalAdapter
 import com.seo.finddoc.recyclerview.SearchFragment
 import com.seo.finddoc.rest_setting.FindDocRetrofitGenerator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  *  프리퍼런스 수정 전까지 permissionCheck는 인스턴스 직접 생성
  *  권한 허용 여부 안 뜨면서 허가된 것 관계 있는지 체크
+ *  약국 data 추가
+ *  리사이클러뷰 아이템 잘림 현상
+ * 겹칠 경우 선택하여 정보 볼 수 있게
  */
 class BottomMainFragment : Fragment(), OnMapReadyCallback {
     private var _binding: BottomMainFragmentBinding? =null
@@ -55,10 +57,19 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     private lateinit var nMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var locationClient: FusedLocationProviderClient
-    private var isFabOpen = true
     private lateinit var mContext : Context
-    private lateinit var bottomSheet: LinearLayout
+    private lateinit var mainBottomSheet: LinearLayout
+    private lateinit var bsEachPlace: LinearLayout
+    private var fabIndex = 0
+    private lateinit var mainBSBehavior: BottomSheetBehavior<View>
+    private lateinit var infoBSBehavior: BottomSheetBehavior<View>
+    private val hospitalAdapter by lazy{
+        HospitalAdapter()
+    }
 
+    private val medicalDTO = MedicalDTO()
+
+    private lateinit var result : ArrayList<HospitalItem>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,7 +80,7 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = BottomMainFragmentBinding.inflate(inflater, container, false)
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
@@ -79,10 +90,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             // 23 미만
             initNaverMapLocation()
         }
-
-        //버튼 리사이클러 뷰
-//        initRecycler(container!!.context)
-        initRecycler(mContext)
 
         //검색화면으로 이동
         val activity = activity as MainActivity
@@ -97,91 +104,241 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         }
 
         /**
-         * persistent로 전환, 버튼 연결
+         * 병원/약국 구분하는 스피너 완성되면 filterbutton 관련 파일 삭제
          */
-        //bottomSheet
-        bottomSheet = binding.root.findViewById(R.id.bottomSheetLayout)
-        val bottomSheetRV = bottomSheet.findViewById<RecyclerView>(R.id.bottomSheetRV)
-        with(bottomSheetRV) {
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-            /**
-             * 병원, 약국 구분
-             */
-            adapter = PharmacyListAdapter(pharmacyList())
+        val medicalTypeAdapter = ArrayAdapter.createFromResource(
+            mContext,
+            R.array.filter_category,
+            android.R.layout.simple_dropdown_item_1line
+        )
+
+        with(binding.filterAT) {
+            setAdapter(medicalTypeAdapter)
+            setOnItemClickListener { adapterView, _, position, _ ->
+                medicalDTO.ctg = adapterView.getItemAtPosition(position) as String
+            }
         }
 
-        val bsBehavior = BottomSheetBehavior.from(bottomSheet)
-        bsBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        bsBehavior.addBottomSheetCallback(object  : BottomSheetBehavior.BottomSheetCallback(){
+        //병원 또는 약국 목록
+        initMainBottomSheet()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        inquiryResult()
+    }
+
+    //병원 또는 약국 목록
+    private fun initMainBottomSheet() {
+        mainBottomSheet = binding.root.findViewById(R.id.bottomSheetLayout)
+
+        val bottomSheetRV = mainBottomSheet.findViewById<RecyclerView>(R.id.bottomSheetRV)
+        with(bottomSheetRV) {
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            mainBSBehavior = from(mainBottomSheet)
+//            filter(items)
+            adapter = hospitalAdapter
+        }
+
+        mainBSBehavior.state = STATE_HALF_EXPANDED
+        mainBSBehavior.addBottomSheetCallback(object  : BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                with(binding){
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> {
-                            toggleFab()
-                        }
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                            bsBehavior.peekHeight = 250
-                        }
-                        BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        }
-                        BottomSheetBehavior.STATE_COLLAPSED -> {
-                        }
-                        BottomSheetBehavior.STATE_DRAGGING -> {
-                        }
-                        BottomSheetBehavior.STATE_SETTLING -> {
-                        }
+                when (newState) {
+                    STATE_HIDDEN -> {
+                        binding.fabList.visibility = View.VISIBLE
+                    }
+                    STATE_EXPANDED -> {
+                        mainBSBehavior.peekHeight = 250
+                    }
+                    STATE_HALF_EXPANDED -> {
+                    }
+                    STATE_COLLAPSED -> {
+                    }
+                    STATE_DRAGGING -> {
+                    }
+                    STATE_SETTLING -> {
                     }
                 }
-
             }
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
             }
         })
-        /**
-         *
-         */
-        bsBehavior.saveFlags
 
-
-        /**
-         * include Layout에 id 적용 후 anchor 등록
-         */
         with(binding) {
             //목록보기
             fabList.setOnClickListener {
-                toggleFab()
-                bsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                mainBSBehavior.state = STATE_EXPANDED
+                convertFab(1)
             }
             //지도보기
             fabMap.setOnClickListener {
-                toggleFab()
-                bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
+                mainBSBehavior.state = STATE_HIDDEN
+                convertFab(0)
             }
         }
 
-        return binding.root
     }
 
-    private fun toggleFab(){
-        with(binding) {
-            // 지도 보기 클릭 -> 목록 보기
-            if (isFabOpen) {
-                fabMap.isClickable = false
-                fabMap.isGone = true
-                fabList.isClickable = true
-                fabList.isVisible = true
-                // 목록보기 클릭 -> 지도 보기
-            } else {
-                fabList.isClickable = false
-                fabList.isGone = true
-                fabMap.isClickable = true
-                fabMap.isVisible = true
+    private fun convertFab(index: Int){
+        // 0은 지도보기, 1은 목록보기
+        fabIndex = index
+        fabIndex += 1
+        if (fabIndex > 1) {
+            fabIndex = 0
+        }
+        when (fabIndex) {
+            0 -> {
+                binding.fabList.visibility = View.GONE
+                binding.fabMap.visibility = View.VISIBLE
             }
-            isFabOpen = !isFabOpen
+            else -> {
+                binding.fabList.visibility = View.VISIBLE
+                binding.fabMap.visibility = View.GONE
+            }
         }
     }
+
+    private fun inquiryResult() {
+        binding.progressbar.visibility = View.VISIBLE
+        /*       val call : Call<HospitalEntityRoot>
+                       = FindDocRetrofitGenerator.generateHospitalInstance().findHospitalInfo(
+                   FindDocRetrofitGenerator.decodePublicDataServiceKey(),
+                   10,
+                   110000,
+                   "json"
+               )
+
+               call.enqueue(object : Callback<HospitalEntityRoot> {
+                   override fun onResponse(
+                       call: Call<HospitalEntityRoot>,
+                       response: Response<HospitalEntityRoot>
+                   ){
+                       if (response.isSuccessful) {
+                           val hospitalRoot = response.body() as HospitalEntityRoot
+       //                    Log.e("RESULT",hospitalRoot.response.body.items.item.toString())
+                           val result = hospitalRoot.response.body.items.item
+                           hospitalAdapter.submitList(result)
+       //                    filter(hospitalRoot.response.body.items.item)
+                       }
+                   }
+                   override fun onFailure(call: Call<HospitalEntityRoot>, t: Throwable) {
+                       toastMessage("""실패 - ${t.printStackTrace()}""")
+       //                Log.e("RESULT", t.toString())
+                       t.printStackTrace()
+                   }
+               })*/
+
+        CoroutineScope(Dispatchers.IO).launch{
+            val response = FindDocRetrofitGenerator.generateHospitalInstance().findHospitalInfoByCoroutine(
+                FindDocRetrofitGenerator.decodePublicDataServiceKey(),
+                50,
+                110000,
+                "json"
+            )
+
+            withContext(Dispatchers.Main){
+                if (response.isSuccessful) {
+                    binding.progressbar.visibility = View.GONE
+                    val hospitalRoot = response.body() as HospitalEntityRoot
+                    result = hospitalRoot.response.body.items.item
+                    hospitalAdapter.submitList(result)
+                    addMarker(result)
+                } else {
+                    Log.e("RESULT", response.code().toString())
+                }
+            }
+        }
+    }
+
+    private val markerMaps = mutableMapOf<Marker, HospitalItem>()
+    private fun addMarker(items: ArrayList<HospitalItem>){
+        items.forEach {
+            with(Marker()) {
+                position = LatLng(it.YPos, it.XPos)
+                icon = if (it.clCdNm == "약국") {
+                    OverlayImage.fromResource(R.drawable.ic_marker_pharmacy)
+                } else {
+                    OverlayImage.fromResource(R.drawable.ic_marker_clinic)
+                }
+
+                //마커 아이콘 크기(wrap_content로)
+                width = Marker.SIZE_AUTO
+                height = Marker.SIZE_AUTO
+
+                captionText = it.yadmNm
+                captionRequestedWidth = 100
+                captionTextSize = 12f
+                captionMinZoom = 10.0
+//                captionMaxZoom = 14.0
+
+                //겹쳐도 무조건 표시
+                isForceShowIcon = true
+
+                //지도 심벌 겹칠 시 숨김
+                isHideCollidedSymbols = true
+
+                //원근감
+                isIconPerspectiveEnabled = true
+
+                setOnClickListener {
+                    displayItemInfo(markerMaps[this]!!)
+                    //마커에서 이벤트 소비
+                    true
+                }
+
+                markerMaps[this]=it
+                //마커를 지도에 추가
+                map = nMap
+            }
+        }
+    }
+
+    private fun displayItemInfo(item: HospitalItem) {
+        mainBottomSheet.visibility = View.GONE
+        binding.fabList.visibility = View.GONE
+        binding.fabMap.visibility = View.GONE
+
+        bsEachPlace = binding.root.findViewById(R.id.bottomSheetEachPlaceLayout)
+        bsEachPlace.visibility = View.VISIBLE
+
+        with(bsEachPlace) {
+            findViewById<TextView>(R.id.hospitalTV).text = item.yadmNm
+            findViewById<TextView>(R.id.dongTV).text = item.addr
+            findViewById<TextView>(R.id.telTV).text = item.telno
+            findViewById<TextView>(R.id.hopitalInfoTV1).text = item.ykiho
+            findViewById<TextView>(R.id.hopitalInfoTV2).text = item.YPos.toString()
+        }
+
+        infoBSBehavior = from(bsEachPlace)
+        infoBSBehavior.state = STATE_EXPANDED
+        infoBSBehavior.addBottomSheetCallback(object  : BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    STATE_HIDDEN -> {
+                    }
+                    STATE_EXPANDED -> {
+                    }
+                    STATE_HALF_EXPANDED -> {
+                    }
+                    STATE_COLLAPSED -> {
+                    }
+                    STATE_DRAGGING -> {
+                    }
+                    STATE_SETTLING -> {
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+
+    }
+
     //NaverMap 객체 불러오기
     private fun initNaverMapLocation() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as MapFragment?
@@ -252,67 +409,6 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun initRecycler(context: Context) {
-        val multiadapter = FilterButtonsAdapter(context)
-        with(binding.filterRV) {
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-            adapter = multiadapter
-            addItemDecoration(FilterItemDecoration(10))
-        }
-        multiadapter.datas = mutableListOf<FilterData>().apply {
-            add(FilterData("병원",1))
-            add(FilterData("진료중",2))
-            add(FilterData( "기타",2))
-        }
-
-        multiadapter.setOnItemClickListener(  object : FilterButtonsAdapter.OnItemClickListener{
-                override fun onItemClick(position: Int) {
-                    /**
-                     * 작동불가
-                     */
-                }
-            }
-        )
-
-        multiadapter.notifyDataSetChanged()
-    }
-
-    private fun setMarker( coord: LatLng, num: Int) {
-        with(Marker()) {
-            position = coord
-//            icon = OverlayImage.fromResource(R.drawable.ic_marker_clinic)
-            icon = OverlayImage.fromResource(R.drawable.ic_marker_pharmacy)
-            //마커 아이콘 크기(wrap_content로)
-            width = Marker.SIZE_AUTO
-            height = Marker.SIZE_AUTO
-
-            captionText = "약국명1"
-            captionTextSize = 12f
-
-            //겹쳐도 무조건 표시
-            /**
-             * 겹칠 경우 선택하여 정보 볼 수 있게
-             */
-            isForceShowIcon = true
-
-            //지도 심벌 겹칠 시 숨김
-            isHideCollidedSymbols = true
-
-            //원근감
-            isIconPerspectiveEnabled = true
-
-            //
-            tag = num
-
-            setOnClickListener {
-                toastMessage("마커 클릭 됨 ${it.tag}")
-                false
-            }
-            //마커를 지도에 추가
-            map = nMap
-        }
-    }
-
     //getMapAsync로 맵 활성화시 map의 기능 설정
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
@@ -370,26 +466,12 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             true
         }*/
 
-        /**
-         * 마커 테스트 - 약국
-         */
-        setMarker(
-            LatLng(
-                naverMap.cameraPosition.target.latitude,
-                naverMap.cameraPosition.target.longitude,
-            ),
-            2
-        )
-
         val infoWindow = InfoWindow().apply {
             setOnClickListener {
                 close()
                 true
             }
         }
-
-
-
 
         /*
         //카메라 움직임
@@ -438,21 +520,22 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
             .include(LatLng(37.5590777, 126.974617))
             .build()*//*
 
-        //지도 클릭 이벤트 - 좌표 전달
-        naverMap.setOnMapClickListener { pointF, latLng ->
-            *//*           Toast.makeText(this, "${latLng.latitude}, ${latLng.longitude}",
-                           Toast.LENGTH_SHORT).show()*//*
-        }
-
 
         //위치 변경 이벤트
         naverMap.addOnLocationChangeListener { location ->
-*//*            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
-                Toast.LENGTH_SHORT).show()*//*
+            Toast.makeText(this, "${location.latitude}, ${location.longitude}",
+                Toast.LENGTH_SHORT).show()
         }
 
-
         */
+
+        //지도 클릭
+        naverMap.setOnMapClickListener { _, latLng ->
+            infoBSBehavior.state = STATE_HIDDEN
+            /**
+             * mainBSBehavior 숨기기
+             */
+        }
 
 
         //지도 중심 잡기 - UI 요소에 가려진 영역을 콘텐츠 패딩으로 지정
@@ -504,71 +587,55 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
      * 좌표 주소 변환
      */
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        selectHospitalCode()
-    }
-
     /**
-     * 공공데이터 인증키 사용 여부 확인하기 javax.net.ssl.SSLHandshakeException
+     * 스피너 선택값과 분류코드, 종별코드, 진료과목코드 일치시키기
      */
-    private fun selectHospitalCode() {
-        val call : Call<HospitalRoot>
-                = FindDocRetrofitGenerator.generateHospitalInstance().findHospitalInfo(
-            com.seo.finddoc.rest_setting.DATA_API_KEY,
-            1,
-            10,
-            "json"
-        )
 
-        call.enqueue(object : Callback<HospitalRoot> {
-            override fun onResponse(call: Call<HospitalRoot>,
-                                    response: Response<HospitalRoot>){
-                if (response.isSuccessful) {
-                    val hospitalRoot = response.body() as HospitalRoot
-                    Log.e("RESULT",hospitalRoot.response.body.items.item.toString())
-                    toastMessage("성공")
-                }
-            }
-            override fun onFailure(call: Call<HospitalRoot>, t: Throwable) {
-//                call.cancel()
-                Log.e("RESULT", t.toString())
-                toastMessage("""실패 - ${t.printStackTrace()}""")
-            }
-        })
-    }
 
     //    var currentLocation : Location?
 
     /**
      * 삭제예정 - bottom sheet 내용
      */
-    private fun pharmacyList() = mutableListOf<PharmacyListItem>().apply {
-        add(
-            PharmacyListItem("가 약국","약국","영업중",
-                "12:00 점심시간","430m","가산동")
-        )
-        add(
-            PharmacyListItem("나 약국","약국","영업중",
-                "12:00 점심시간","530m","가산동")
-        )
-        add(
-            PharmacyListItem("다 약국","약국","영업중",
-                "12:00 점심시간","630m","가산동")
-        )
-        add(
-            PharmacyListItem("라 약국","약국","영업중",
-                "12:00 점심시간","730m","가산동")
-        )
-        add(
-            PharmacyListItem("마 약국","약국","영업중",
-                "12:00 점심시간","830m","가산동")
-        )
-        add(
-            PharmacyListItem("바 약국","약국","영업중",
-                "12:00 점심시간","930m","가산동")
-        )
-    }
+//    private fun pharmacyList() = mutableListOf<PharmacyListItem>().apply {
+//        add(
+//            PharmacyListItem("가 약국","약국","영업중",
+//                "12:00 점심시간","430m","가산동")
+//        )
+//        add(
+//            PharmacyListItem("나 약국","약국","영업중",
+//                "12:00 점심시간","530m","가산동")
+//        )
+//        add(
+//            PharmacyListItem("다 약국","약국","영업중",
+//                "12:00 점심시간","630m","가산동")
+//        )
+//        add(
+//            PharmacyListItem("라 약국","약국","영업중",
+//                "12:00 점심시간","730m","가산동")
+//        )
+//        add(
+//            PharmacyListItem("마 약국","약국","영업중",
+//                "12:00 점심시간","830m","가산동")
+//        )
+//        add(
+//            PharmacyListItem("바 약국","약국","영업중",
+//                "12:00 점심시간","930m","가산동")
+//        )
+//}
+    /**
+     * 서울 중심지역 구하기  - 위도 평균, 경도 평균(총합/갯수),
+    중앙에 레이아웃, style
+
+    onviewCreated에서 호출
+    invisible
+     */
+//    @MainThread
+//    fun filter(items: ArrayList<HospitalItem>) : List<HospitalItem> {
+//        return items.filter {
+//            it.sidoCdNm == "서울"
+//        }.toList()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -587,3 +654,4 @@ class BottomMainFragment : Fragment(), OnMapReadyCallback {
     }
 
 }
+

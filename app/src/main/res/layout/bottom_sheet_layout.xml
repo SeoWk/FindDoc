@@ -11,9 +11,8 @@
     android:background="@drawable/rounded_dialog"
     app:behavior_hideable="true"
     app:behavior_skipCollapsed="true"
-    app:behavior_peekHeight="40dp"
-    app:behavior_expandedOffset="90dp"
     app:behavior_fitToContents="false"
+    app:behavior_expandedOffset="90dp"
     app:behavior_halfExpandedRatio="0.4"
     app:layout_behavior="@string/bottom_sheet_behavior"
     >
@@ -27,7 +26,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
         android:fillViewport="true"
         >
         <LinearLayout
@@ -43,7 +44,7 @@
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
-                tools:listitem="@layout/recyclerview_hospitallist_item" >
+                tools:listitem="@layout/recyclerview_hospital_item" >
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -19,7 +19,7 @@
         <item name="backgroundColor">@android:color/white</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="titleTextColor">@android:color/black</item>
-        <item name="chipStyle">@style/Widget.FindDoc.Chip</item>
+        <item name="chipStyle">@style/Widget.FindDoc.ChoiceChip</item>
     </style>
 
     <style name="MyButtonStyle" parent="Widget.AppCompat.Button">
@@ -80,14 +80,19 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rounded_dialog</item>
     </style>
-    <!--Chip Custom-->
-    <style name="Widget.FindDoc.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+    <!--Choice Chip Custom-->
+    <style name="Widget.FindDoc.ChoiceChip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
         <item name="android:textSize">12sp</item>
-        <item name="chipBackgroundColor">@color/background_color_chip_state_list</item>
-        <item name="android:textColor">@color/text_color_chip_state_list</item>
+        <item name="chipBackgroundColor">@color/recommendation_chip_state_list</item>
+        <item name="android:textColor">@color/recommendation_chip_text_state_list</item>
     </style>
-
-
-
+    <!--Filter Chip Custom-->
+    <style name="Widget.FindDoc.FilterChip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="chipBackgroundColor">@color/filter_chip_state_list</item>
+        <item name="android:textColor">@color/filter_chip_text_state_list</item>
+        <item name="checkedIconVisible">false</item>
+    </style>
 </resources>

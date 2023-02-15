@@ -9,7 +9,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.seo.finddoc.R
-import com.seo.finddoc.data.FilterData
+import com.seo.finddoc.data.MedicalDTO
 
 const val multi_type1 = 1
 const val multi_type2 = 2
@@ -19,7 +19,7 @@ class FilterButtonsAdapter(
     private val context: Context,
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var datas = mutableListOf<FilterData>()
+    var datas = mutableListOf<MedicalDTO>()
 
     // 리스너 객체 참조를 저장하는 변수
     private lateinit var mListener: OnItemClickListener
@@ -48,7 +48,7 @@ class FilterButtonsAdapter(
             android.R.layout.simple_dropdown_item_1line
         )
 
-        fun bind(item: FilterData) {
+        fun bind(item: MedicalDTO) {
             with(spinner) {
                 setAdapter(filterCtgAdapter)
                 /**
@@ -58,7 +58,7 @@ class FilterButtonsAdapter(
 
                 setOnItemClickListener { adapterView, _, position, _ ->
                     val ctg = adapterView.getItemAtPosition(position) as String
-                    val subject = FilterData("전체",3)
+                    val subject = MedicalDTO("전체",3)
                     if(ctg == "병원" && datas.none { it == subject }) {
                         datas.add(0,subject)
 
@@ -91,8 +91,8 @@ class FilterButtonsAdapter(
 
         private val btn: Button = view.findViewById(R.id.filterBtn)
 
-        fun bind(item: FilterData) {
-            btn.text = item.name
+        fun bind(item: MedicalDTO) {
+            btn.text = item.ctg
         }
     }
 
@@ -106,7 +106,7 @@ class FilterButtonsAdapter(
             android.R.layout.simple_dropdown_item_1line
         )
 
-        fun bind(item: FilterData) {
+        fun bind(item: MedicalDTO) {
             with(spinner) {
                 setAdapter(filterSubjAdapter)
                 setOnItemClickListener { adapterView, _, position, _ ->

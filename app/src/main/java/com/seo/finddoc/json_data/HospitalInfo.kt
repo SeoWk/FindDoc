@@ -1,15 +1,18 @@
+/*
 package com.seo.finddoc.json_data
 
 import com.google.gson.annotations.SerializedName
 
+*/
 /**
- * 병원에 대한 정보들
- */
+ * 삭제예정
+ *//*
+
 data class HospitalRoot(
     @SerializedName("response")
-    var response: MainJSON
+    var response: Response
 )
-data class MainJSON(
+data class Response(
     @SerializedName("header")
     var header: Header,
     @SerializedName("body")
@@ -23,7 +26,7 @@ data class Header(
 )
 data class Body(
     @SerializedName("items")
-    var items: ItemInfo,
+    var items: Items,
     @SerializedName("numOfRows")
     var numOfRows: Int = -1,
     @SerializedName("pageNo")
@@ -31,13 +34,14 @@ data class Body(
     @SerializedName("totalCount")
     var totalCount: Int = -1
 )
-data class ItemInfo(
+data class Items(
     @SerializedName("item")
     var item: MutableList<HospitalItem> = mutableListOf()
 )
 
 data class HospitalItem(
-   /* @SerializedName("dutyAddr") var dutyAddr : String = "",
+   */
+/* @SerializedName("dutyAddr") var dutyAddr : String = "",
     @SerializedName("dutyDiv") var dutyDiv : String = "",
     @SerializedName("dutyDivNam") var dutyDivNam : String = "",
     @SerializedName("dutyEmcls") var dutyEmcls : String = "",
@@ -66,7 +70,8 @@ data class HospitalItem(
     @SerializedName("postCdn2"      ) var postCdn2: String = "",
     @SerializedName("rnum"          ) var rnum: Int = -1,
     @SerializedName("wgs84Lat"      ) var wgs84Lat: String = "",
-    @SerializedName("wgs84Lon"      ) var wgs84Lon: String = ""*/
+    @SerializedName("wgs84Lon"      ) var wgs84Lon: String = ""*//*
+
     @SerializedName("addr") var addr           : String = "",
     @SerializedName("clCd") var clCd           : String = "",
     @SerializedName("clCdNm") var clCdNm         : String = "",
@@ -97,4 +102,4 @@ data class HospitalItem(
     @SerializedName("YPos") var YPos           : Double = -1.0,
     @SerializedName("yadmNm") var yadmNm         : String = "",
     @SerializedName("ykiho") var ykiho          : String = ""
-)
+)*/

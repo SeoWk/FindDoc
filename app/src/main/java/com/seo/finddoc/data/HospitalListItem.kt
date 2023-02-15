@@ -1,5 +1,8 @@
 package com.seo.finddoc.data
 
+/**
+ *  삭제예정
+ */
 data class HospitalListItem(
     var hospitalName: String ,
     var medicalDepartment: String ,

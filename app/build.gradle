@@ -48,6 +48,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
 }
@@ -65,7 +66,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     //KTX
     implementation "androidx.fragment:fragment-ktx:1.5.5"
-    implementation 'com.google.code.gson:gson:2.10'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
@@ -101,7 +101,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     //gson
-    implementation "com.google.code.gson:gson:2.10"
+    implementation("com.google.code.gson:gson:2.10.1")
 
     //retrofit2
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -113,5 +113,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }

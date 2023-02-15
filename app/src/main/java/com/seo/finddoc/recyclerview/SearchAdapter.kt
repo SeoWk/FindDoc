@@ -80,13 +80,6 @@ class SearchAdapter(
 
     }
 
-    /**
-     * 삭제예정
-     */
-/*    fun setData(data: List<SearchWord>) {
-        list = data
-        notifyDataSetChanged()
-    }*/
 
     class SearchComparator : DiffUtil.ItemCallback<SearchWord>() {
         override fun areItemsTheSame(oldItem: SearchWord, newItem: SearchWord): Boolean {

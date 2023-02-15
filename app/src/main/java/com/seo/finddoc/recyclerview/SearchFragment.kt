@@ -18,7 +18,9 @@ import com.seo.finddoc.room.SearchViewModel
 import com.seo.finddoc.room.SearchViewModelFactory
 import com.seo.finddoc.room.SearchWord
 
-
+/**
+ * chip 여러번 클릭시 오류
+ */
 class SearchFragment : Fragment() {
     private lateinit var binding: SearchFragmentBinding
     private val searchViewModel : SearchViewModel by viewModels {
@@ -51,7 +53,6 @@ class SearchFragment : Fragment() {
                 searchComplete(checkedChipText)
             }
         }
-
 
         //최근 검색어 리사이클러뷰
         val searchAdapter = SearchAdapter()

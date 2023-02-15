@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.seo.finddoc.data.HospitalListItem
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.ViewpagerItemBinding
-import com.seo.finddoc.recyclerview.HospitalListAdapter
 import com.seo.finddoc.recyclerview.PharmacyListAdapter
 
 class FavoriteViewPagerFragment : Fragment() {
@@ -45,7 +44,10 @@ class FavoriteViewPagerFragment : Fragment() {
 
             val dept = bundle?.getString("department")
             when (dept) {
-                "병원" -> adapter = HospitalListAdapter(hospitalList())
+                /**
+                 * 하드코딩 -> Rest 받기로 수정
+                 */
+//                "병원" -> adapter = HospitalAdapter(hospitalList())
                 "약국" -> adapter = PharmacyListAdapter(pharmacyList())
                 else -> throw IllegalStateException("Unexpected value: " + dept)
             }

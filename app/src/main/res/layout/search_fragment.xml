@@ -63,7 +63,7 @@
         >
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:singleSelection="true"
             app:singleLine="true"
@@ -74,35 +74,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="소아과"
-                style="@style/Widget.FindDoc.Chip"
+                style="@style/Widget.FindDoc.ChoiceChip"
                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이비인후과"
-                style="@style/Widget.FindDoc.Chip"
+                style="@style/Widget.FindDoc.ChoiceChip"
                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="내과"
-                style="@style/Widget.FindDoc.Chip"
+                style="@style/Widget.FindDoc.ChoiceChip"
                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="신경외과"
-                style="@style/Widget.FindDoc.Chip"
+                style="@style/Widget.FindDoc.ChoiceChip"
                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="성형외과"
-                style="@style/Widget.FindDoc.Chip"
+                style="@style/Widget.FindDoc.ChoiceChip"
                 />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>

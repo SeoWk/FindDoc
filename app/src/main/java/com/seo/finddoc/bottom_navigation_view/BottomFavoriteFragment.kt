@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -14,10 +15,12 @@ import com.seo.finddoc.databinding.BottomFavoriteFragmentBinding
 import com.seo.finddoc.fragment.FavoriteViewPagerFragment
 
 class BottomFavoriteFragment : Fragment() {
-
     private var _binding: BottomFavoriteFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var tab: TabLayout
+    private lateinit var viewPager2: ViewPager2
     private var tabItems = listOf("병원", "약국")
+
     companion object{
         fun newInstance(title: String): Fragment {
             val fragment: Fragment = BottomFavoriteFragment()
@@ -32,7 +35,7 @@ class BottomFavoriteFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = BottomFavoriteFragmentBinding.inflate(inflater,container,false)
 
         //툴바 셋팅
@@ -44,8 +47,8 @@ class BottomFavoriteFragment : Fragment() {
         }
 
         //뷰페이저
-        val viewpager = binding.favoriteVP
-        val tab = binding.favoriteTabs
+        viewPager2 = binding.favoriteVP
+        tab = binding.favoriteTabs
 
         tab.addOnTabSelectedListener(object : OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -64,13 +67,17 @@ class BottomFavoriteFragment : Fragment() {
             appendFragment(FavoriteViewPagerFragment.newInstance(tabItems[0]))
             appendFragment(FavoriteViewPagerFragment.newInstance(tabItems[1]))
         }
-        viewpager.adapter = pagerAdapter
+        viewPager2.adapter = pagerAdapter
 
-        TabLayoutMediator(tab, viewpager, TabLayoutMediator.TabConfigurationStrategy{
+        TabLayoutMediator(tab, viewPager2, TabLayoutMediator.TabConfigurationStrategy{
             tab, position -> tab.text = tabItems[position]
         }).attach()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

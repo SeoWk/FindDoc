@@ -5,6 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class FavoriteFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val fragments = arrayListOf<Fragment>()
+
     override fun createFragment(position: Int): Fragment {
         return fragments[position]
     }

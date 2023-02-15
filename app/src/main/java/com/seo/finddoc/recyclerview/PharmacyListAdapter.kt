@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.seo.finddoc.data.PharmacyListItem
 import com.seo.finddoc.databinding.RecyclerviewPharmacylistItemBinding
 
+/**
+ * 수정할 예정임
+ */
 class PharmacyListAdapter(
     private val pharmacyList: MutableList<PharmacyListItem>
 ): RecyclerView.Adapter<PharmacyListAdapter.PharmacyListHolder>() {

@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         const val LBS_CHECK_TAG = "LBS_CHECK_TAG"
         const val LBS_CHECK_CODE = 100
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
