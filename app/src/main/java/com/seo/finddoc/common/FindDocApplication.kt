@@ -7,8 +7,8 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import com.kakao.sdk.common.KakaoSdk
 import com.seo.finddoc.BuildConfig
-import com.seo.finddoc.room.SearchRepository
-import com.seo.finddoc.room.SearchRoomDatabase
+import com.seo.finddoc.etc_room.SearchRepository
+import com.seo.finddoc.etc_room.SearchRoomDatabase
 
 /**
  *  앱 런처아이콘을 터치하면 처음 실행되는 코드

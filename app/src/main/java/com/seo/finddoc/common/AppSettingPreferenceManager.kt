@@ -15,7 +15,7 @@ class AppSettingPreferenceManager {
                 return manager
             } else {
                 sp = PreferenceManager.getDefaultSharedPreferences(context)
-                spEditor= sp.edit()
+                spEditor = sp.edit()
                 manager = AppSettingPreferenceManager()
             }
             return manager

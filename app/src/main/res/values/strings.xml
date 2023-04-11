@@ -1,10 +1,58 @@
 <resources>
     <string name="app_name">FindDoc</string>
     <string name="app_label">찾았닥</string>
+    <!--chips_main_menu-->
+    <string name="chip_main_1">병원</string>
+    <string name="chip_main_2">약국</string>
+    <!--chips_sub_menu-->
+    <string name="chip_sub_1">내과</string>
+    <string name="chip_sub_2">소아청소년과</string>
+    <string name="chip_sub_3">신경과</string>
+    <string name="chip_sub_4">정신건강의학과</string>
+    <string name="chip_sub_5">피부과</string>
+    <string name="chip_sub_6">외과</string>
+    <string name="chip_sub_7">흉부외과</string>
+    <string name="chip_sub_8">정형외과</string>
+    <string name="chip_sub_9">신경외과</string>
+    <string name="chip_sub_10">성형외과</string>
+    <string name="chip_sub_11">산부인과</string>
+    <string name="chip_sub_12">안과</string>
+    <string name="chip_sub_13">이비인후과</string>
+    <string name="chip_sub_14">비뇨기과</string>
+    <string name="chip_sub_15">재활의학과</string>
+    <string name="chip_sub_16">마취통증의학과</string>
+    <string name="chip_sub_17">영상의학과</string>
+    <string name="chip_sub_18">치료방사선과</string>
+    <string name="chip_sub_19">임상병리과</string>
+    <string name="chip_sub_20">해부병리과</string>
+    <string name="chip_sub_21">가정의학과</string>
+    <string name="chip_sub_22">핵의학과</string>
+    <string name="chip_sub_23">응급의학과</string>
+    <string name="chip_sub_24">치과</string>
+    <string name="chip_sub_25">구강악안면외과</string>
+<!---->
+    <string name="fab_search">이 지역 검색</string>
     <string name="fab_list">목록보기</string>
     <string name="fab_map">지도보기</string>
     <string name="search_hint">진료과목 또는 병원명/약국명</string>
+    <string name="kakao_login">카카오 로그인</string>
+    <string name="info_button">이름</string>
+    <string name="hpTV">전화번호</string>
+    <string name="categoryTV1">고객지원</string>
+    <string name="faq_button">FAQ</string>
+    <string name="notice_button">공지사항</string>
+    <string name="inquire_button">문의하기</string>
+    <string name="categoryTV2">기타</string>
+    <string name="terms_button">약관 및 정책</string>
+    <string name="invite_button">친구초대</string>
+    <string name="version_button">현재 버전</string>
+    <string name="versionTV">v 0.1.0</string>
 
+    <!--    Title -->
+    <string name="home_title">병원/약국찾기</string>
+    <string name="favorite_title">즐겨찾기</string>
+    <string name="mypage_title">마이페이지</string>
+    <string name="details_title">상세보기</string>
     <!-- Preference Titles -->
     <string name="autologin_header">로그인</string>
     <string name="notify_header">알림</string>
@@ -17,7 +65,6 @@
     <string name="notify_summary_on">즐겨찾기한 의료시설에 대한 알림 ON</string>
     <string name="notify_summary_off">즐겨찾기한 의료시설에 대한 알림 OFF</string>
 
+    <!---->
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

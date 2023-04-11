@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.seo.finddoc.MainActivity
+import com.seo.finddoc.presentation.MainActivity
 import com.seo.finddoc.R
-import com.seo.finddoc.bottom_navigation_view.BottomMypageFragment
+import com.seo.finddoc.presentation.fragment.BottomMypageFragment
 
 class PreferenceSettingsFragment : Fragment() {
     /**

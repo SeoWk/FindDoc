@@ -12,15 +12,15 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:id="@+id/toolbar"
+            android:id="@+id/mypage_toolbar"
             android:background="?android:attr/windowBackground"
             >
             <TextView
+                android:id="@+id/mypage_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="마이페이지"
+                android:text="@string/mypage_title"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title"
                 />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="#00ff0000"
-                    android:text="카카오 로그인"
+                    android:text="@string/kakao_login"
                     android:drawableStart="@drawable/ic_speech_bubble_24"
                     />
             </LinearLayout>
@@ -57,9 +57,9 @@
                 android:id="@+id/info_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="이름"
+                android:text="@string/info_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="전화번호"
+                android:text="@string/hpTV"
                 android:textStyle="bold"
                 android:textColor="#000000"
                 />
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="고객지원"
+                android:text="@string/categoryTV1"
                 android:textColor="#C9C9C9"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -90,9 +90,9 @@
                 android:id="@+id/faq_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="FAQ"
+                android:text="@string/faq_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -100,9 +100,9 @@
                 android:id="@+id/notice_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="공지사항"
+                android:text="@string/notice_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -110,9 +110,9 @@
                 android:id="@+id/inquire_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="문의하기"
+                android:text="@string/inquire_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="기타"
+                android:text="@string/categoryTV2"
                 android:textColor="#C9C9C9"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -134,9 +134,9 @@
                 android:id="@+id/terms_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="약관 및 정책"
+                android:text="@string/terms_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -144,9 +144,9 @@
                 android:id="@+id/invite_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="친구초대"
+                android:text="@string/invite_button"
                 android:textStyle="bold"
-                android:gravity="left|center"
+                android:gravity="left|center_vertical"
                 android:drawableEnd="@drawable/ic_greater"
                 android:background="@android:color/transparent"
                 />
@@ -159,19 +159,20 @@
                     android:id="@+id/version_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="현재 버전"
+                    android:text="@string/version_button"
                     android:textStyle="bold"
-                    android:gravity="left|center"
+                    android:gravity="left|center_vertical"
                     android:background="@android:color/transparent"
                     />
                 <TextView
+                    android:id="@+id/versionTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="v 0.1.0"
+                    android:text="@string/versionTV"
                     android:textStyle="bold"
                     android:textColor="#000000"
-                    android:gravity="left|center"
+                    android:gravity="left|center_vertical"
                     />
             </LinearLayout>
         </LinearLayout>
